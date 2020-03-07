@@ -15,6 +15,24 @@ public class BusDriver extends Tread {
     private int id;
 
     /**
+     * Arrival Terminal Transfer Quay
+     * @serialField arrTermTransfer
+     */
+    private arrivalTerminalTransferQuay arrTermTransfer;
+
+    /**
+     * Departure Terminal Transfer Quay
+     * @serialField depTermTransfer
+     */
+    private departureTerminalTransferQuay depTermTransfer;
+
+    /**
+     * General Repository of Information
+     * @serialField repo
+     */
+    private repositoryInfo repo;
+
+    /**
      * BusDriver instantiation
      *
      * @param id BusDriver id
@@ -23,8 +41,13 @@ public class BusDriver extends Tread {
      * @param
      *
      */
-    public BusDriver(int id){
-
+    public BusDriver(int id, arrivalTerminalTransferQuay att, departureTerminalTransferQuay dtt, repositoryInfo r){
+        super("BusDrive "+id);
+        this.id = id;
+        att = arrTermTransfer;
+        dtt = depTermTransfer;
+        repo = r;
+        state = BusDriverStates.PARKARRIVALTERMINAL;
     }
 
     /**

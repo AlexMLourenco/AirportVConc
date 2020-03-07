@@ -1,4 +1,8 @@
 package entities;
 
 public enum BusDriverStates {
+    PARKARRIVALTERMINAL,
+    DRIVINGFORWARD,
+    DRIVINGBACKWARD,
+    PARKDEPARTURETERMINAL
 }

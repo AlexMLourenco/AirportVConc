@@ -15,22 +15,59 @@ public class Porter extends Tread {
     private int id;
 
     /**
+     * If the plane hold is empty returns true
+     * @serialField planeHoldEmpty
+     */
+    private boolean planeHoldEmpty;
+
+    /**
+     * Bags in the hold
+     * @serialField bag
+     */
+    private BAG bag;
+
+    /**
      * Lounge
      * @serialField arrivalLounge
      */
     private arrivalLounge lounge;
 
     /**
+     * Temporary Storage
+     * @serialField temporaryStorage
+     */
+    private temporaryStorageArea temporaryStorage;
+
+    /**
+     * Baggage Collection Point
+     * @serialField bagCollectPoint
+     */
+    private baggageCollectionPoint bagCollectPoint;
+
+    /**
+     * General Repository of Information
+     * @serialField repo
+     */
+    private repositoryInfo repo;
+
+    /**
      * Porter instantiation
      *
      * @param id Porter id
-     * @param
-     * @param
-     * @param
+     * @param l arrivalLounge
+     * @param ts temporaryStorageArea
+     * @param bcp baggageCollectionPoint
+     * @param r repositoryInfo
      *
      */
-    public Porter(int id){
-
+    public Porter(int id, arrivalLounge l, temporaryStorageArea ts, baggageCollectionPoint bcp, repositoryInfo r) {
+        super("Porter "+id);
+        this.id = id;
+        lounge = l;
+        temporaryStorage = ts;
+        bagCollectPoint = bcp;
+        repo = r;
+        state = PorterStates.WAITINGPALNELAND;
     }
 
     /**
@@ -38,7 +75,27 @@ public class Porter extends Tread {
      */
     @Override
     public void run() {
-
+        /**
+         * BAG bag;
+         * boolean planeHoldEmpty;
+         *
+         * while ( arrivalLounge.takeARest != 'E' ) {
+         * 	planeHoldEmpty = false;
+         *
+         * 	while( !planeHoldEmpty ) {
+         *
+         * 		bag = arrivalLounge.tryToCollectABag();
+         *
+         * 		if (bag == null) planeHoldEmpty = true;	// Porao esta vazio
+         *
+         * 		else if (bag.getDestStat() == 'T') temporaryStorageArea.carryItToAppropriateStore(bag);	// if in transit
+         *
+         * 		else baggageCollectionPoint.carryItToAppropriateStore(bag);
+         *        }
+         *
+         * 	arrivalLounge.noMoreBagsToCollect();
+         * }
+         */
     }
 
     /**
