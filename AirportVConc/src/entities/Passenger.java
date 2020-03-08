@@ -1,6 +1,9 @@
 package entities;
 
-public class Passenger extends Tread {
+import commonInfra.*;
+import sharedRegions.*;
+
+public class Passenger extends Thread {
 
     /**
      * Passenger's state
@@ -58,8 +61,7 @@ public class Passenger extends Tread {
 
     /**
      * Passenger instantiation
-     *
-     * @param id Passenger id
+     *  @param id Passenger id
      * @param l arrivalLounge
      * @param att arrivalTerminalTransferQuay
      * @param ate arrivalTerminalExit
@@ -69,8 +71,8 @@ public class Passenger extends Tread {
      * @param bro baggageReclaimOffice
      *
      */
-    public Passanger(int id, arrivalLounge l, arrivalTerminalTransferQuay att, arrivalTerminalExit ate, departureTerminalTransferQuay dtt, departureTerminalEntrance dte, baggageCollectionPoint bcp, baggageReclaimOffice bro){
-        super("Passanger "+id);
+    public Passenger(int id, arrivalLounge l, arrivalTerminalTransferQuay att, arrivalTerminalExit ate, departureTerminalTransferQuay dtt, departureTerminalEntrance dte, baggageCollectionPoint bcp, baggageReclaimOffice bro){
+        //super("Passanger "+id);
         this.id = id;
         lounge = l;
         arrTermTransfer = att;

@@ -1,6 +1,9 @@
 package entities;
 
-public class BusDriver extends Tread {
+import commonInfra.*;
+import sharedRegions.*;
+
+public class BusDriver extends Thread {
 
     /**
      * BusDriver's state
@@ -36,13 +39,13 @@ public class BusDriver extends Tread {
      * BusDriver instantiation
      *
      * @param id BusDriver id
-     * @param
-     * @param
-     * @param
+     * @param att arrivalTerminalTransferQuay
+     * @param dtt departureTerminalTransferQuay
+     * @param r repositoryInfo
      *
      */
     public BusDriver(int id, arrivalTerminalTransferQuay att, departureTerminalTransferQuay dtt, repositoryInfo r){
-        super("BusDrive "+id);
+        //super("BusDrive "+id);
         this.id = id;
         att = arrTermTransfer;
         dtt = depTermTransfer;

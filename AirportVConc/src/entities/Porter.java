@@ -1,6 +1,9 @@
 package entities;
 
-public class Porter extends Tread {
+import commonInfra.*;
+import sharedRegions.*;
+
+public class Porter extends Thread {
 
     /**
      * Porter's state
@@ -61,7 +64,7 @@ public class Porter extends Tread {
      *
      */
     public Porter(int id, arrivalLounge l, temporaryStorageArea ts, baggageCollectionPoint bcp, repositoryInfo r) {
-        super("Porter "+id);
+        //super("Porter "+id);
         this.id = id;
         lounge = l;
         temporaryStorage = ts;
