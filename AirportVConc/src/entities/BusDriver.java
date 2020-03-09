@@ -12,12 +12,6 @@ public class BusDriver extends Thread {
     private BusDriverStates state;
 
     /**
-     * BusDriver's identification
-     * @serialField id
-     */
-    private int id;
-
-    /**
      * Arrival Terminal Transfer Quay
      * @serialField arrTermTransfer
      */
@@ -38,15 +32,13 @@ public class BusDriver extends Thread {
     /**
      * BusDriver instantiation
      *
-     * @param id BusDriver id
      * @param att arrivalTerminalTransferQuay
      * @param dtt departureTerminalTransferQuay
      * @param r repositoryInfo
      *
      */
-    public BusDriver(int id, arrivalTerminalTransferQuay att, departureTerminalTransferQuay dtt, repositoryInfo r){
-        //super("BusDrive "+id);
-        this.id = id;
+    public BusDriver(arrivalTerminalTransferQuay att, departureTerminalTransferQuay dtt, repositoryInfo r){
+        //super("BusDriver");
         att = arrTermTransfer;
         dtt = depTermTransfer;
         repo = r;
@@ -76,14 +68,6 @@ public class BusDriver extends Thread {
     public void setState(BusDriverStates s) {
         StackTraceElement[] ste = Thread.currentThread().getStackTrace();
         state = s;
-    }
-
-    /**
-     * Returns this BusDriver's id.
-     * @return BusDriver's id
-     */
-    public int getBusDriverID() {
-        return id;
     }
 
     /**

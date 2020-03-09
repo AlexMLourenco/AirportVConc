@@ -4,17 +4,11 @@ import sharedRegions.*;
 import entities.*;
 import commonInfra.*;
 import java.io.FileNotFoundException;
-import java.util.Date;
 
 /**
  * Main thread of the program
  */
 public class AirportVConc {
-
-    /**
-     * Repository log filename
-     */
-    public static final String filename = "log_" + new Date().toString().replace(' ', '_') + ".txt";
 
     /**
      * AirportVConc main's thread

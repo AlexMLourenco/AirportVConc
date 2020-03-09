@@ -12,12 +12,6 @@ public class Porter extends Thread {
     private PorterStates state;
 
     /**
-     * Porter's identification
-     * @serialField id
-     */
-    private int id;
-
-    /**
      * If the plane hold is empty returns true
      * @serialField planeHoldEmpty
      */
@@ -56,16 +50,14 @@ public class Porter extends Thread {
     /**
      * Porter instantiation
      *
-     * @param id Porter id
      * @param l arrivalLounge
      * @param ts temporaryStorageArea
      * @param bcp baggageCollectionPoint
      * @param r repositoryInfo
      *
      */
-    public Porter(int id, arrivalLounge l, temporaryStorageArea ts, baggageCollectionPoint bcp, repositoryInfo r) {
-        //super("Porter "+id);
-        this.id = id;
+    public Porter(arrivalLounge l, temporaryStorageArea ts, baggageCollectionPoint bcp, repositoryInfo r) {
+        //super("Porter");
         lounge = l;
         temporaryStorage = ts;
         bagCollectPoint = bcp;
@@ -116,14 +108,6 @@ public class Porter extends Thread {
     public void setState(PorterStates s) {
         StackTraceElement[] ste = Thread.currentThread().getStackTrace();
         state = s;
-    }
-
-    /**
-     * Returns this porter's id.
-     * @return porter's id
-     */
-    public int getPorterID() {
-        return id;
     }
 
 }
