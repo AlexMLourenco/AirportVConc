@@ -62,7 +62,7 @@ public class BusDriver extends Thread {
     }
 
     /**
-     * Returns this BusDriver's state.
+     * Returns this BusDriver's state
      * @return BusDriver's current state
      */
     public BusDriverStates getBusDriverState() {
@@ -70,7 +70,7 @@ public class BusDriver extends Thread {
     }
 
     /**
-     * Sets this BusDriver's state.
+     * Sets this BusDriver's state
      * @param s the state to be set
      */
     public void setState(BusDriverStates s) {
@@ -85,5 +85,21 @@ public class BusDriver extends Thread {
     public int getBusDriverID() {
         return id;
     }
+
+    /**
+     * Driver goes to the Departure Terminal
+     *
+     */
+    /**public void goToDepartureTerminal(){
+
+    }*/
+
+    /**
+     * Driver goes to the Arrival Terminal
+     *
+     */
+    /**public void goToArrivalTerminal(){
+
+    }*/
 
 }
