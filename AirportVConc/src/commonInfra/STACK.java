@@ -1,17 +1,14 @@
 package commonInfra;
 
-public class STACK
-{
+public class STACK {
     /**
      *   Internal storage area.
      */
-
     private Object [] stack;
 
     /**
      *   Pointer to the first empty location.
      */
-
     private int stackPnt;
 
     /**
@@ -21,7 +18,6 @@ public class STACK
      *
      *     @param nElem stack size
      */
-
     public STACK(int nElem) {
         if (nElem > 0) {
             stack = new Object [nElem];
@@ -36,7 +32,6 @@ public class STACK
      *
      *    @param val generic object to be written
      */
-
     public void push(Object val) {
         if (stackPnt < stack.length) {
             stack[stackPnt] = val;
@@ -51,7 +46,6 @@ public class STACK
      *
      *    @return last generic object that was written
      */
-
     public Object pop() {
         Object val = null;                                    // default value
 

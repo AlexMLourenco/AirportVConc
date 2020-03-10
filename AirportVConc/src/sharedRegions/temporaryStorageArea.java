@@ -4,6 +4,20 @@ import commonInfra.BAG;
 
 public class temporaryStorageArea {
 
+    /**
+     * General Repository of Information
+     * @serialField repo
+     */
+    private repositoryInfo repo;
+
+    /**
+     * Temporary Storage Area instantiation
+     @param repo repositoryInfo
+     */
+    public temporaryStorageArea(repositoryInfo repo){
+        this.repo = repo;
+    }
+
     /* Porter functions */
 
     /**

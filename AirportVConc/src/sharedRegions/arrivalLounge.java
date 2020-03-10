@@ -4,6 +4,20 @@ import commonInfra.BAG;
 
 public class arrivalLounge {
 
+    /**
+     * General Repository of Information
+     * @serialField repo
+     */
+    private repositoryInfo repo;
+
+    /**
+     * Arrival Lounge instantiation
+     @param repo repositoryInfo
+     */
+    public arrivalLounge(repositoryInfo repo){
+        this.repo = repo;
+    }
+
     /* Porter functions */
 
     char takeARest(){       // Ponto de Sincronização para bloqueio do bagageiro

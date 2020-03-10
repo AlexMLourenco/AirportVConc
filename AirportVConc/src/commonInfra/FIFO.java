@@ -1,28 +1,25 @@
 package commonInfra;
 
 public class FIFO {
+
     /**
      *   Internal storage area.
      */
-
     private Object [] fifo;
 
     /**
      *   Pointer to the first empty location.
      */
-
     private int inPnt;
 
     /**
      *   Pointer to the first occupied location.
      */
-
     private int outPnt;
 
     /**
      *   Signaling FIFO empty state.
      */
-
     private boolean empty;
 
     /**
@@ -32,10 +29,9 @@ public class FIFO {
      *
      *     @param nElem FIFO size
      */
-
     public FIFO (int nElem) {
-        if (nElem > 0)
-        { fifo = new Object [nElem];
+        if (nElem > 0) {
+            fifo = new Object [nElem];
             inPnt = outPnt = 0;
             empty = true;
         }
@@ -48,10 +44,9 @@ public class FIFO {
      *
      *    @param val generic object to be written
      */
-
     public void in(Object val) {
-        if ((inPnt != outPnt) || empty)
-        { fifo[inPnt] = val;
+        if ((inPnt != outPnt) || empty) {
+            fifo[inPnt] = val;
             inPnt = (inPnt + 1) % fifo.length;
             empty = false;
         }
@@ -64,12 +59,11 @@ public class FIFO {
      *
      *    @return first generic object that was written
      */
-
     public Object out() {
         Object val = null;                                    // default returned object
 
-        if (!empty)
-        { val = fifo[outPnt];
+        if (!empty) {
+            val = fifo[outPnt];
             outPnt = (outPnt + 1) % fifo.length;
             empty = (inPnt == outPnt);
         }

@@ -4,6 +4,20 @@ import commonInfra.BAG;
 
 public class baggageCollectionPoint {
 
+    /**
+     * General Repository of Information
+     * @serialField repo
+     */
+    private repositoryInfo repo;
+
+    /**
+     * Baggage Collection Point instantiation
+     @param repo repositoryInfo
+     */
+    public baggageCollectionPoint(repositoryInfo repo){
+        this.repo = repo;
+    }
+
     /* Porter functions */
 
     /**
