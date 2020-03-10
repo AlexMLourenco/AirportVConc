@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5836ffb8-bdbc-423f-b805-42b81f6101f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/BusDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/BusDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Porter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Porter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainProject/AirportVConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainProject/AirportVConc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainProject/SimulPar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainProject/SimulPar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sharedRegions/repositoryInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/repositoryInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,7 +43,8 @@
       <option name="presentableId" value="Default" />
       <updated>1583426059664</updated>
       <workItem from="1583426060822" duration="4023000" />
-      <workItem from="1583716103772" duration="2200000" />
+      <workItem from="1583716103772" duration="2733000" />
+      <workItem from="1583800821081" duration="870000" />
     </task>
     <servers />
   </component>
@@ -63,6 +60,10 @@
       <screen x="1366" y="0" width="1360" height="768" />
     </state>
     <state x="1898" y="280" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/1366.0.1360.768/0.0.1366.768@1366.0.1360.768" timestamp="1583708158475" />
+    <state x="1739" y="216" key="com.intellij.ide.util.TipDialog" timestamp="1583800822045">
+      <screen x="1366" y="0" width="1360" height="768" />
+    </state>
+    <state x="1739" y="216" key="com.intellij.ide.util.TipDialog/1366.0.1360.768/0.0.1366.768@1366.0.1360.768" timestamp="1583800822045" />
     <state x="1711" y="177" key="run.anything.popup" timestamp="1583715866553">
       <screen x="1366" y="0" width="1360" height="768" />
     </state>

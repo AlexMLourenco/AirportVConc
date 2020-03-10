@@ -18,6 +18,8 @@ public class repositoryInfo {
 
     // Passenger
     private PassengerStates[] passengerState;
+    private char[] flightState;                 // T - transit, E - end
+    private int[] numBags;                      // 0, 1 or 2
 
     // Bus Driver
     private BusDriverStates driverState;
@@ -30,6 +32,10 @@ public class repositoryInfo {
         f = new File(SimulPar.filename);
         pw = new PrintWriter(f);
 
+        porterState = PorterStates.WAITINGPALNELAND;
+
+        passengerState = new PassengerStates[SimulPar.Passenger];
+        for (int i = 0; i < SimulPar.Passenger; i++) passengerState[i] = PassengerStates.DISENBARKINGZONE;
 
     }
 
