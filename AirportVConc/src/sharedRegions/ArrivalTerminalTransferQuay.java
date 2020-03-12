@@ -2,13 +2,13 @@ package sharedRegions;
 
 import commonInfra.FIFO;
 
-public class arrivalTerminalTransferQuay {
+public class ArrivalTerminalTransferQuay {
 
     /**
      * General Repository of Information
      * @serialField repo
      */
-    private repositoryInfo repo;
+    private RepositoryInfo repo;
 
     /**
      * Passengers waiting for a bus at the disembarking zone
@@ -20,7 +20,7 @@ public class arrivalTerminalTransferQuay {
      * Arrival Terminal Transfer Quay instantiation
      @param repo repositoryInfo
      */
-    public arrivalTerminalTransferQuay(repositoryInfo repo){
+    public ArrivalTerminalTransferQuay(RepositoryInfo repo){
         this.repo = repo;
     }
 

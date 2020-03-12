@@ -2,19 +2,19 @@ package sharedRegions;
 
 import commonInfra.BAG;
 
-public class arrivalLounge {
+public class ArrivalLounge {
 
     /**
      * General Repository of Information
      * @serialField repo
      */
-    private repositoryInfo repo;
+    private RepositoryInfo repo;
 
     /**
      * Arrival Lounge instantiation
      @param repo repositoryInfo
      */
-    public arrivalLounge(repositoryInfo repo){
+    public ArrivalLounge(RepositoryInfo repo){
         this.repo = repo;
     }
 
@@ -39,7 +39,7 @@ public class arrivalLounge {
 
     /* Passenger functions */
 
-    char whatShouldIDo(int nLand) {
+    public char whatShouldIDo(int nLand) {
         //para cada passeigeiro vai ler se é o destino final ou nao
 
         // variavel que sinalize o fim de operação (boolean)

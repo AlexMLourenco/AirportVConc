@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 
-public class repositoryInfo {
+public class RepositoryInfo {
 
     private File f;
     private PrintWriter pw;
@@ -28,14 +28,14 @@ public class repositoryInfo {
      * Repository instantiation.
      * @throws FileNotFoundException when there's no file
      */
-    public repositoryInfo() throws FileNotFoundException {
-        f = new File(SimulPar.filename);
+    public RepositoryInfo() throws FileNotFoundException {
+        f = new File(SimulPar.FILENAME);
         pw = new PrintWriter(f);
 
-        porterState = PorterStates.WAITINGPALNELAND;
+        porterState = PorterStates.WAITING_FOR_A_PLANE_TO_LAND;
 
-        passengerState = new PassengerStates[SimulPar.Passenger];
-        for (int i = 0; i < SimulPar.Passenger; i++) passengerState[i] = PassengerStates.DISENBARKINGZONE;
+        passengerState = new PassengerStates[SimulPar.PASSENGERS];
+        for (int i = 0; i < SimulPar.PASSENGERS; i++) passengerState[i] = PassengerStates.AT_THE_DISEMBARKING_ZONE;
 
     }
 

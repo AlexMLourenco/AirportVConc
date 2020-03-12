@@ -7,35 +7,38 @@ public class SimulPar {
     /**
      * Number of Passengers
      */
-    public static final int Passenger = 6;
+    public static final int PASSENGERS = 6;
 
     /**
      * Number of Plane Landings
      */
-    public static final int Landings = 5;
+    public static final int LANDINGS = 5;
 
     /**
      * Maximum number of pieces of luggage by each passenger
      */
-    public static final int Luggage = 2;
+    public static final int LUGGAGE = 2;
 
     /**
      * Maximum Capacity of seating places in the bus
      */
-    public static final int BusCapacity = 3;
+    public static final int BUS_CAPACITY = 3;
 
     /**
      * Minimum milliseconds to wakeup.
      */
-    public static final int minSleep = 5;
+    public static final int MIN_SLEEP = 5;
 
     /**
      * Maximum milliseconds to wakeup.
      */
-    public static final int maxSleep = 10;
+    public static final int MAX_SLEEP = 10;
 
     /**
      * Repository log filename
      */
-    public static final String filename = "log_" + new Date().toString().replace(' ', '_') + ".txt";
+    public static final String FILENAME = "log_" + new Date().toString().replace(' ', '_') + ".txt";
+
+
+
 }

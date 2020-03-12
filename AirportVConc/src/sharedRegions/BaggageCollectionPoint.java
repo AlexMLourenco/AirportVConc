@@ -2,19 +2,19 @@ package sharedRegions;
 
 import commonInfra.BAG;
 
-public class baggageCollectionPoint {
+public class BaggageCollectionPoint {
 
     /**
      * General Repository of Information
      * @serialField repo
      */
-    private repositoryInfo repo;
+    private RepositoryInfo repo;
 
     /**
      * Baggage Collection Point instantiation
      @param repo repositoryInfo
      */
-    public baggageCollectionPoint(repositoryInfo repo){
+    public BaggageCollectionPoint(RepositoryInfo repo){
         this.repo = repo;
     }
 

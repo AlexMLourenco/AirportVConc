@@ -1,18 +1,18 @@
 package sharedRegions;
 
-public class arrivalTerminalExit {
+public class ArrivalTerminalExit {
 
     /**
      * General Repository of Information
      * @serialField repo
      */
-    private repositoryInfo repo;
+    private RepositoryInfo repo;
 
     /**
      * Arrival Terminal Exit instantiation
      @param repo repositoryInfo
      */
-    public arrivalTerminalExit(repositoryInfo repo){
+    public ArrivalTerminalExit(RepositoryInfo repo){
         this.repo = repo;
     }
 

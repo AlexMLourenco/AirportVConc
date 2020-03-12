@@ -2,19 +2,19 @@ package sharedRegions;
 
 import commonInfra.BAG;
 
-public class temporaryStorageArea {
+public class TemporaryStorageArea {
 
     /**
      * General Repository of Information
      * @serialField repo
      */
-    private repositoryInfo repo;
+    private RepositoryInfo repo;
 
     /**
      * Temporary Storage Area instantiation
      @param repo repositoryInfo
      */
-    public temporaryStorageArea(repositoryInfo repo){
+    public TemporaryStorageArea(RepositoryInfo repo){
         this.repo = repo;
     }
 

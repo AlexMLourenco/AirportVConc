@@ -1,6 +1,5 @@
 package entities;
 
-import commonInfra.*;
 import sharedRegions.*;
 
 public class BusDriver extends Thread {
@@ -15,19 +14,19 @@ public class BusDriver extends Thread {
      * Arrival Terminal Transfer Quay
      * @serialField arrTermTransfer
      */
-    private arrivalTerminalTransferQuay arrTermTransfer;
+    private ArrivalTerminalTransferQuay arrTermTransfer;
 
     /**
      * Departure Terminal Transfer Quay
      * @serialField depTermTransfer
      */
-    private departureTerminalTransferQuay depTermTransfer;
+    private DepartureTerminalTransferQuay depTermTransfer;
 
     /**
      * General Repository of Information
      * @serialField repo
      */
-    private repositoryInfo repo;
+    private RepositoryInfo repo;
 
     /**
      * BusDriver instantiation
@@ -37,12 +36,12 @@ public class BusDriver extends Thread {
      * @param r repositoryInfo
      *
      */
-    public BusDriver(arrivalTerminalTransferQuay att, departureTerminalTransferQuay dtt, repositoryInfo r){
+    public BusDriver(ArrivalTerminalTransferQuay att, DepartureTerminalTransferQuay dtt, RepositoryInfo r){
         //super("BusDriver");
         att = arrTermTransfer;
         dtt = depTermTransfer;
         repo = r;
-        state = BusDriverStates.PARKARRIVALTERMINAL;
+        state = BusDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL;
     }
 
     /**
@@ -51,6 +50,44 @@ public class BusDriver extends Thread {
     @Override
     public void run() {
 
+        /**
+         * boolean readyToGo = true;
+         * boolean dayWorkEnd = true;
+         * Passenger passenger;
+         * Driver driver;
+         *
+         * while( dayWorkEnd ) {
+         *
+         * 	readyToGo = driver.getSchedule();
+         * 	Queue<Passenger> q = new LinkedList<>();
+         *
+         * 	if(readyToGo && q.size > 0 && q.size <3) {
+         * 		for(i=0; i<q.size;i++){
+         * 			passenger = q.peek();
+         * 			arrivalTerminalTransfer.announcingBusBoarding(passenger);
+         * 			q.remove(passenger);
+         *                }
+         * 		goToDepartureTerminal();
+         * 		departureTerminalTransfer.parkTheBusAndLetPassOff();
+         * 		goToArrivalTerminal();
+         * 		arrivalTerminalTransfer.parkTheBus();
+         ** 	} else if(q.size >= 3) {
+         * 		for(i=0; i<3;i++){
+         * 			passenger = q.peek();
+         * 			arrivalTerminalTransfer.announcingBusBoarding(passenger);
+         * 			q.remove(passenger);
+         * 		}
+         *
+         * 		goToDepartureTerminal();
+         * 		departureTerminalTransfer.parkTheBusAndLetPassOff();
+         * 		goToArrivalTerminal();
+         * 		arrivalTerminalTransfer.parkTheBus();
+         * 	}
+         *
+         * 	dayWorkEnd = hasDaysWorkEnded();
+         *
+         * }
+         */
     }
 
     /**

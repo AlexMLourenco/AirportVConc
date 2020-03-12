@@ -1,28 +1,28 @@
 package sharedRegions;
 
-public class baggageReclaimOffice {
+public class DepartureTerminalEntrance {
 
     /**
      * General Repository of Information
      * @serialField repo
      */
-    private repositoryInfo repo;
+    private RepositoryInfo repo;
 
     /**
-     * Baggage Reclaim Office instantiation
+     * Departure Terminal Entrance instantiation
      @param repo repositoryInfo
      */
-    public baggageReclaimOffice(repositoryInfo repo){
+    public DepartureTerminalEntrance(RepositoryInfo repo){
         this.repo = repo;
     }
 
     /* Passenger functions */
 
     /**
-     * Passenger reports a missing bag
+     * Passenger prepares the next
      * @return
      */
-    void reportMissingBag(){
+    void prepareNextLeg(){
 
     }
 

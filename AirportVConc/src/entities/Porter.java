@@ -27,25 +27,25 @@ public class Porter extends Thread {
      * Lounge
      * @serialField arrivalLounge
      */
-    private arrivalLounge lounge;
+    private ArrivalLounge lounge;
 
     /**
      * Temporary Storage
      * @serialField temporaryStorage
      */
-    private temporaryStorageArea temporaryStorage;
+    private TemporaryStorageArea temporaryStorage;
 
     /**
      * Baggage Collection Point
      * @serialField bagCollectPoint
      */
-    private baggageCollectionPoint bagCollectPoint;
+    private BaggageCollectionPoint bagCollectPoint;
 
     /**
      * General Repository of Information
      * @serialField repo
      */
-    private repositoryInfo repo;
+    private RepositoryInfo repo;
 
     /**
      * Porter instantiation
@@ -56,13 +56,13 @@ public class Porter extends Thread {
      * @param r repositoryInfo
      *
      */
-    public Porter(arrivalLounge l, temporaryStorageArea ts, baggageCollectionPoint bcp, repositoryInfo r) {
-        //super("Porter");
+    public Porter(ArrivalLounge l, TemporaryStorageArea ts, BaggageCollectionPoint bcp, RepositoryInfo r) {
+        super("Porter");
         lounge = l;
         temporaryStorage = ts;
         bagCollectPoint = bcp;
         repo = r;
-        state = PorterStates.WAITINGPALNELAND;
+        state = PorterStates.WAITING_FOR_A_PLANE_TO_LAND;
     }
 
     /**
@@ -106,7 +106,7 @@ public class Porter extends Thread {
      * @param s the state to be set
      */
     public void setState(PorterStates s) {
-        StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+        //StackTraceElement[] ste = Thread.currentThread().getStackTrace();
         state = s;
     }
 

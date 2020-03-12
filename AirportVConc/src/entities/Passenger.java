@@ -1,7 +1,9 @@
 package entities;
 
-import commonInfra.*;
+import mainProject.SimulPar;
 import sharedRegions.*;
+
+import java.util.Random;
 
 public class Passenger extends Thread {
 
@@ -17,47 +19,51 @@ public class Passenger extends Thread {
      */
     private int id;
 
+    private boolean isFinalDestination;
+    private int numberOfLuggages;
+
+
     /**
      * Lounge
      * @serialField arrivalLounge
      */
-    private arrivalLounge lounge;
+    private ArrivalLounge arrivalLounge;
 
     /**
      * Arrival Terminal Transfer Quay
      * @serialField arrTermTransfer
      */
-    private arrivalTerminalTransferQuay arrTermTransfer;
+    private ArrivalTerminalTransferQuay arrTermTransfer;
 
     /**
      * Arrival Terminal Exit
      * @serialField arrTermExit
      */
-    private arrivalTerminalExit arrTermExit;
+    private ArrivalTerminalExit arrTermExit;
 
     /**
      * Departure Terminal Transfer Quay
      * @serialField depTermTransfer
      */
-    private departureTerminalTransferQuay depTermTransfer;
+    private DepartureTerminalTransferQuay depTermTransfer;
 
     /**
      * Departure Terminal Entrance
      * @serialField depTermEntrance
      */
-    private departureTerminalEntrance depTermEntrance;
+    private DepartureTerminalEntrance depTermEntrance;
 
     /**
      * Baggage Collection Point
      * @serialField bagCollectPoint
      */
-    private baggageCollectionPoint bagCollectPoint;
+    private BaggageCollectionPoint bagCollectPoint;
 
     /**
      * Baggage Reclaim Office
      * @serialField bagReclaimOffice
      */
-    private baggageReclaimOffice bagReclaimOffice;
+    private BaggageReclaimOffice bagReclaimOffice;
 
     /**
      * Passenger instantiation
@@ -71,17 +77,17 @@ public class Passenger extends Thread {
      * @param bro baggageReclaimOffice
      *
      */
-    public Passenger(int id, arrivalLounge l, arrivalTerminalTransferQuay att, arrivalTerminalExit ate, departureTerminalTransferQuay dtt, departureTerminalEntrance dte, baggageCollectionPoint bcp, baggageReclaimOffice bro){
+    public Passenger(int id, ArrivalLounge l, ArrivalTerminalTransferQuay att, ArrivalTerminalExit ate, DepartureTerminalTransferQuay dtt, DepartureTerminalEntrance dte, BaggageCollectionPoint bcp, BaggageReclaimOffice bro){
         //super("Passanger "+id);
         this.id = id;
-        lounge = l;
+        arrivalLounge = l;
         arrTermTransfer = att;
         arrTermExit = ate;
         depTermTransfer = dtt;
         depTermEntrance = dte;
         bagCollectPoint = bcp;
         bagReclaimOffice = bro;
-        state = PassengerStates.DISENBARKINGZONE; // What Should I Do?
+        state = PassengerStates.AT_THE_DISEMBARKING_ZONE; // What Should I Do?
     }
 
     /**
@@ -89,29 +95,36 @@ public class Passenger extends Thread {
      */
     @Override
     public void run() {
-        /**
-         * Boolean isFinalDst = false
-         * Passenger passenger;
-         * int numBags;
-         * int voo, npass, search;
-         * BAG bag;
-         *
-         * 	for (voo = 0; voo < 5; voo++) {
-         * 		if(arrivalLounge.whatSouldIDo() == 'T') {		// In transit
-         * 			arrivalTerminalTransfer.takeABus();			// passenger
-         * 			arrivalTerminalExit.enterTheBus();
-         * 			departureTerminalTransfer.leaveTheBus();
-         * 			departureTerminalEntrance.prepareNextLeg();
-         *                } else {	// End
-         * 			numBags = 0;
-         * 			while(numBags < nBagsDesp[voo]){
-         * 				bag = baggageCollectionPoint.goCollectBag();
-         * 				if(bag == null) baggageReclaimOffice.reportMissingBags();
-         * 				numBags++;
-         *            }
-         * 			arrivalTerminalExit.goHome();
-         *        }* 	}
-         */
+        isFinalDestination = (Math.random() < 0.5);
+        numberOfLuggages = new Random().nextInt(SimulPar.LUGGAGE+1);
+        //Criar uma stack no arrival lounge, que contenha as malas de todos os passageiros (simular o porao)
+        //notificar o bagageiro que tem malas para aviar.
+
+        /***
+        Boolean isFinalDst = false
+        Passenger passenger;
+        int numBags;
+        int voo, npass, search;
+        BAG bag;
+
+        for (voo = 0; voo < 5; voo++) {
+            if(arrivalLounge.whatShouldIDo() == 'T') {		// In transit
+                arrivalTerminalTransfer.takeABus();			// passenger
+                arrivalTerminalExit.enterTheBus();
+                departureTerminalTransfer.leaveTheBus();
+                departureTerminalEntrance.prepareNextLeg();
+            } else {	// End
+                numBags = 0;
+                while(numBags < nBagsDesp[voo]){
+                    bag = baggageCollectionPoint.goCollectBag();
+                    if(bag == null) baggageReclaimOffice.reportMissingBags();
+                    numBags++;
+                }
+                arrivalTerminalExit.goHome();
+            }
+        }**/
+
+
     }
 
     /**
