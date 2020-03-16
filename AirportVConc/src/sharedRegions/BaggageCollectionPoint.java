@@ -1,21 +1,30 @@
 package sharedRegions;
 
+import java.util.*;
+
 import commonInfra.BAG;
+import entities.*;
 
 public class BaggageCollectionPoint {
 
     /**
      * General Repository of Information
-     * @serialField repo
+     * @serialField repository
      */
-    private RepositoryInfo repo;
+    private RepositoryInfo repository;
+
+    private Queue<BAG> bags;
+
+    private boolean noMoreBagsInThePlaneHold;
 
     /**
      * Baggage Collection Point instantiation
-     @param repo repositoryInfo
+     @param repository repositoryInfo
      */
-    public BaggageCollectionPoint(RepositoryInfo repo){
-        this.repo = repo;
+    public BaggageCollectionPoint(RepositoryInfo repository){
+        this.repository = repository;
+        this.bags = new LinkedList<>();
+        this.noMoreBagsInThePlaneHold = false;
     }
 
     /* Porter functions */
@@ -24,8 +33,17 @@ public class BaggageCollectionPoint {
      * Porter takes the bag to the correct store at the end of the journey
      * @return
      */
-    void carryItToAppropriateStore(BAG bag){
+    public synchronized void carryItToAppropriateStore(BAG bag){
+        Porter porter = (Porter) Thread.currentThread();
+        //porter.setPorterState(PorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR);
+        this.bags.add(bag);
+        repository.registerLuggageInConveyorBelt();
+        notifyAll(); //Notify that a new bag is in the belt
+    }
 
+    public synchronized void warningNoMoreBagsInThePlaneHold() {
+        this.noMoreBagsInThePlaneHold = true;
+        notifyAll();
     }
 
     /* Passenger function */
@@ -34,8 +52,22 @@ public class BaggageCollectionPoint {
      * Passenger try's to collect a bag
      * @return
      */
-    void goCollectBag(){
+    public synchronized void goCollectBag(){
+        Passenger passenger = (Passenger) Thread.currentThread();
 
+        while(!noMoreBagsInThePlaneHold){
+            try{
+                wait();
+                if (this.bags.size() != 0) {
+                    if (this.bags.element().getPassenger() == passenger.getIdentifier()) {
+                        this.repository.registerCollectedLuggage(this.bags.element().getPassenger());
+                        this.bags.remove();
+                        passenger.increaseCollectedLuggages();
+                    }
+                }
+
+            }catch(InterruptedException e){}
+        }
     }
 
 }

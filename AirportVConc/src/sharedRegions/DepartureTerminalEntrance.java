@@ -6,14 +6,14 @@ public class DepartureTerminalEntrance {
      * General Repository of Information
      * @serialField repo
      */
-    private RepositoryInfo repo;
+    private RepositoryInfo repository;
 
     /**
      * Departure Terminal Entrance instantiation
-     @param repo repositoryInfo
+     @param repository repositoryInfo
      */
-    public DepartureTerminalEntrance(RepositoryInfo repo){
-        this.repo = repo;
+    public DepartureTerminalEntrance(RepositoryInfo repository){
+        this.repository = repository;
     }
 
     /* Passenger functions */
@@ -22,7 +22,7 @@ public class DepartureTerminalEntrance {
      * Passenger prepares the next
      * @return
      */
-    void prepareNextLeg(){
+    public void prepareNextLeg(){
 
     }
 

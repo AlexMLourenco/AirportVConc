@@ -1,50 +1,51 @@
 package sharedRegions;
 
+import java.util.*;
+
+import mainProject.*;
+
 import commonInfra.BAG;
 
 public class ArrivalLounge {
 
-    /**
-     * General Repository of Information
-     * @serialField repo
-     */
-    private RepositoryInfo repo;
+    private RepositoryInfo repository;
+    Stack<BAG> planeHold;
 
-    /**
-     * Arrival Lounge instantiation
-     @param repo repositoryInfo
-     */
-    public ArrivalLounge(RepositoryInfo repo){
-        this.repo = repo;
+    public ArrivalLounge(RepositoryInfo repository){
+        this.repository= repository;
+        this.planeHold = new Stack<>();
     }
 
-    /* Porter functions */
-
-    char takeARest(){       // Ponto de Sincronização para bloqueio do bagageiro
-        return '-';
+    /*****  PORTER FUNCTIONS  (Calls executed by the Porter)*****/
+    public synchronized boolean takeARest(){
+        //We have to wait until all the passengers got out of the plane
+        while(repository.getPassengersCount()!= SimulPar.PASSENGERS){
+            System.out.println("Porter Waiting! Current Passenger count: " + repository.getPassengersCount());
+            try{
+                wait();
+            }catch(InterruptedException e){}
+        }
+        return true;
     }
 
-    BAG tryToColletABag() {
-        // necessito do array de STACKS (constitui o array dos poroes dos avioes)
-        // instancia a mala e devolver o manisfesto ou nulo
-
-        BAG a = new BAG();
-
-        return a;
+    public synchronized boolean noMoreBagsToCollect() {
+        return planeHold.empty();
     }
 
-    void noMoreBagsToCollect() {
-
+    public synchronized BAG tryToCollectABag() {
+        repository.removeLuggageInPlainHold();
+        return planeHold.pop();
     }
 
-    /* Passenger functions */
-
-    public char whatShouldIDo(int nLand) {
-        //para cada passeigeiro vai ler se é o destino final ou nao
-
-        // variavel que sinalize o fim de operação (boolean)
-
-        return '-';
+    /***** PASSENGER FUNCTIONS *********/
+    public synchronized char whatShouldIDo(int id, boolean isFinalDestination, int numberOfLuggages) {
+        System.out.println("Passenger " + id + " arrived with " + numberOfLuggages + " luggages and final destination " + isFinalDestination);
+        for (int i = 0; i < numberOfLuggages; i++) {
+            planeHold.push(new BAG(id,isFinalDestination));
+        }
+        char action = repository.passengerArrived(id, isFinalDestination,numberOfLuggages);
+        notifyAll();
+        return action;
     }
 
     void setEndOfWork() {

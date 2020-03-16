@@ -6,14 +6,14 @@ public class DepartureTerminalTransferQuay {
      * General Repository of Information
      * @serialField repo
      */
-    private RepositoryInfo repo;
+    private RepositoryInfo repository;
 
     /**
      * Departure Terminal Transfer Quay instantiation
-     @param repo repositoryInfo
+     @param repository repositoryInfo
      */
-    public DepartureTerminalTransferQuay(RepositoryInfo repo){
-        this.repo = repo;
+    public DepartureTerminalTransferQuay(RepositoryInfo repository){
+        this.repository = repository;
     }
 
     /* Passenger functions */
@@ -22,7 +22,7 @@ public class DepartureTerminalTransferQuay {
      * Passenger leaves the bus
      * @return
      */
-    void leaveTheBus(){
+    public void leaveTheBus(){
 
     }
 

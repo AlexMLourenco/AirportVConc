@@ -4,16 +4,16 @@ public class BaggageReclaimOffice {
 
     /**
      * General Repository of Information
-     * @serialField repo
+     * @serialField repository
      */
-    private RepositoryInfo repo;
+    private RepositoryInfo repository;
 
     /**
      * Baggage Reclaim Office instantiation
-     @param repo repositoryInfo
+     @param repository repositoryInfo
      */
-    public BaggageReclaimOffice(RepositoryInfo repo){
-        this.repo = repo;
+    public BaggageReclaimOffice(RepositoryInfo repository){
+        this.repository = repository;
     }
 
     /* Passenger functions */
@@ -22,7 +22,9 @@ public class BaggageReclaimOffice {
      * Passenger reports a missing bag
      * @return
      */
-    void reportMissingBag(){
+    public synchronized void reportMissingBag(){
+        //Passenger passenger = (Passenger) Thread.currentThread();
+        //passenger.setPassengerState(PassengerStates.AT_THE_BAGGAGE_RECLAIM_OFFICE);
 
     }
 

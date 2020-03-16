@@ -1,155 +1,116 @@
 package entities;
 
-import mainProject.SimulPar;
+import mainProject.*;
 import sharedRegions.*;
 
-import java.util.Random;
+import java.util.*;
 
 public class Passenger extends Thread {
-
-    /**
-     * Passenger's state
-     * @serialField state
-     */
-    private PassengerStates state;
-
-    /**
-     * Passenger's identification
-     * @serialField id
-     */
-    private int id;
-
+    private int identifier;
+    private int flight;
     private boolean isFinalDestination;
     private int numberOfLuggages;
+    private int numberOfCollectedLuggages;
 
-
-    /**
-     * Lounge
-     * @serialField arrivalLounge
-     */
     private ArrivalLounge arrivalLounge;
+    private ArrivalTerminalTransferQuay arrivalTerminalTransferQuay;
+    private ArrivalTerminalExit arrivalTerminalExit;
+    private DepartureTerminalTransferQuay departureTerminalTransferQuay;
+    private DepartureTerminalEntrance departureTerminalEntrance;
+    private BaggageCollectionPoint baggageCollectionPoint;
+    private BaggageReclaimOffice baggageReclaimOffice;
 
-    /**
-     * Arrival Terminal Transfer Quay
-     * @serialField arrTermTransfer
-     */
-    private ArrivalTerminalTransferQuay arrTermTransfer;
+    public Passenger(int identifier,
+                     int flight,
+                     ArrivalLounge arrivalLounge,
+                     ArrivalTerminalTransferQuay arrivalTerminalTransferQuay,
+                     ArrivalTerminalExit arrivalTerminalExit,
+                     DepartureTerminalTransferQuay departureTerminalTransferQuay,
+                     DepartureTerminalEntrance departureTerminalEntrance,
+                     BaggageCollectionPoint baggageCollectionPoint,
+                     BaggageReclaimOffice baggageReclaimOffice){
+        super("Passenger "+ identifier);
+        this.identifier = identifier;
+        this.flight = flight;
+        this.numberOfCollectedLuggages = 0;
+        this.arrivalLounge = arrivalLounge;
+        this.arrivalTerminalTransferQuay = arrivalTerminalTransferQuay;
+        this.arrivalTerminalExit = arrivalTerminalExit;
+        this.departureTerminalTransferQuay = departureTerminalTransferQuay;
+        this.departureTerminalEntrance = departureTerminalEntrance;
+        this.baggageCollectionPoint = baggageCollectionPoint;
+        this.baggageReclaimOffice = baggageReclaimOffice;
 
-    /**
-     * Arrival Terminal Exit
-     * @serialField arrTermExit
-     */
-    private ArrivalTerminalExit arrTermExit;
 
-    /**
-     * Departure Terminal Transfer Quay
-     * @serialField depTermTransfer
-     */
-    private DepartureTerminalTransferQuay depTermTransfer;
-
-    /**
-     * Departure Terminal Entrance
-     * @serialField depTermEntrance
-     */
-    private DepartureTerminalEntrance depTermEntrance;
-
-    /**
-     * Baggage Collection Point
-     * @serialField bagCollectPoint
-     */
-    private BaggageCollectionPoint bagCollectPoint;
-
-    /**
-     * Baggage Reclaim Office
-     * @serialField bagReclaimOffice
-     */
-    private BaggageReclaimOffice bagReclaimOffice;
-
-    /**
-     * Passenger instantiation
-     *  @param id Passenger id
-     * @param l arrivalLounge
-     * @param att arrivalTerminalTransferQuay
-     * @param ate arrivalTerminalExit
-     * @param dtt departureTerminalTransferQuay
-     * @param dte departureTerminalEntrance
-     * @param bcp baggageCollectionPoint
-     * @param bro baggageReclaimOffice
-     *
-     */
-    public Passenger(int id, ArrivalLounge l, ArrivalTerminalTransferQuay att, ArrivalTerminalExit ate, DepartureTerminalTransferQuay dtt, DepartureTerminalEntrance dte, BaggageCollectionPoint bcp, BaggageReclaimOffice bro){
-        //super("Passanger "+id);
-        this.id = id;
-        arrivalLounge = l;
-        arrTermTransfer = att;
-        arrTermExit = ate;
-        depTermTransfer = dtt;
-        depTermEntrance = dte;
-        bagCollectPoint = bcp;
-        bagReclaimOffice = bro;
-        state = PassengerStates.AT_THE_DISEMBARKING_ZONE; // What Should I Do?
     }
 
-    /**
-     * Passenger's lifecycle
-     */
+
+    public int getIdentifier() {
+        return identifier;
+    }
+
     @Override
     public void run() {
         isFinalDestination = (Math.random() < 0.5);
         numberOfLuggages = new Random().nextInt(SimulPar.LUGGAGE+1);
-        //Criar uma stack no arrival lounge, que contenha as malas de todos os passageiros (simular o porao)
+
+        char action = arrivalLounge.whatShouldIDo(identifier, isFinalDestination, numberOfLuggages);
+
+        //actions
+        // B - Take a bus
+        // C - Collect Bag
+        // H - Go Home
+
+        switch (action) {
+            case 'B':
+                arrivalTerminalTransferQuay.takeABus(identifier);
+                arrivalTerminalExit.enterTheBus();
+                departureTerminalTransferQuay.leaveTheBus();
+                departureTerminalEntrance.prepareNextLeg();
+                break;
+            case 'C':
+                baggageCollectionPoint.goCollectBag();
+                if (this.numberOfCollectedLuggages != numberOfLuggages) {
+                    baggageReclaimOffice.reportMissingBag();
+                }
+                arrivalTerminalExit.goHome();
+                break;
+            case 'H':
+                arrivalTerminalExit.goHome();
+                break;
+
+        }
         //notificar o bagageiro que tem malas para aviar.
 
         /***
-        Boolean isFinalDst = false
-        Passenger passenger;
-        int numBags;
-        int voo, npass, search;
-        BAG bag;
+         Boolean isFinalDst = false
+         Passenger passenger;
+         int numBags;
+         int voo, npass, search;
+         BAG bag;
 
-        for (voo = 0; voo < 5; voo++) {
-            if(arrivalLounge.whatShouldIDo() == 'T') {		// In transit
-                arrivalTerminalTransfer.takeABus();			// passenger
-                arrivalTerminalExit.enterTheBus();
-                departureTerminalTransfer.leaveTheBus();
-                departureTerminalEntrance.prepareNextLeg();
-            } else {	// End
-                numBags = 0;
-                while(numBags < nBagsDesp[voo]){
-                    bag = baggageCollectionPoint.goCollectBag();
-                    if(bag == null) baggageReclaimOffice.reportMissingBags();
-                    numBags++;
-                }
-                arrivalTerminalExit.goHome();
-            }
-        }**/
+         for (voo = 0; voo < 5; voo++) {
+         if(arrivalLounge.whatShouldIDo() == 'T') {		// In transit
+         arrivalTerminalTransfer.takeABus();			// passenger
+         arrivalTerminalExit.enterTheBus();
+         departureTerminalTransfer.leaveTheBus();
+         departureTerminalEntrance.prepareNextLeg();
+         } else {	// End
+         numBags = 0;
+         while(numBags < nBagsDesp[voo]){
+         bag = baggageCollectionPoint.goCollectBag();
+         if(bag == null) baggageReclaimOffice.reportMissingBags();
+         numBags++;
+         }
+         arrivalTerminalExit.goHome();
+         }
+         }**/
 
 
     }
 
-    /**
-     * Returns this passenger's state.
-     * @return passenger's current state
-     */
-    public PassengerStates getPassengerState() {
-        return state;
-    }
 
-    /**
-     * Sets this passenger's state.
-     * @param s the state to be set
-     */
-    public void setState(PassengerStates s) {
-        StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-        state = s;
+    public void increaseCollectedLuggages() {
+        this.numberOfCollectedLuggages++;
     }
-
-    /**
-     * Returns this passenger's id.
-     * @return passenger's id
-     */
-    public int getPassengerID() {
-        return id;
-    }
-
 }

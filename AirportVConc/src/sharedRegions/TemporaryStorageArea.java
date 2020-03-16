@@ -1,21 +1,26 @@
 package sharedRegions;
 
 import commonInfra.BAG;
+import java.util.*;
 
 public class TemporaryStorageArea {
 
     /**
      * General Repository of Information
-     * @serialField repo
+     * @serialField repository
      */
-    private RepositoryInfo repo;
+    private RepositoryInfo repository;
+
+    // Change
+    private Queue<BAG> bags;
 
     /**
      * Temporary Storage Area instantiation
-     @param repo repositoryInfo
+     @param repository repositoryInfo
      */
-    public TemporaryStorageArea(RepositoryInfo repo){
-        this.repo = repo;
+    public TemporaryStorageArea(RepositoryInfo repository){
+        this.repository = repository;
+        this.bags = new LinkedList<>();
     }
 
     /* Porter functions */
@@ -24,8 +29,9 @@ public class TemporaryStorageArea {
      * Porter takes the bag to the correct store if it is in transit
      * @return
      */
-    void carryItToAppropriateStore(BAG bag) {
-
+    public synchronized void carryItToAppropriateStore(BAG bag) {
+        this.bags.add(bag);
+        this.repository.registerLuggageInStoreRoom();
     }
 
 }

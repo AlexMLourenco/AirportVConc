@@ -1,97 +1,196 @@
 package sharedRegions;
 
-import entities.BusDriverStates;
-import entities.PassengerStates;
-import entities.PorterStates;
-import mainProject.SimulPar;
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.FileNotFoundException;
+import entities.*;
+import mainProject.*;
+import java.io.*;
+import java.util.*;
 
 public class RepositoryInfo {
 
-    private File f;
-    private PrintWriter pw;
+    private File file;
+    private PrintWriter printWriter;
 
-    // Porter
-    private PorterStates porterState;
+    /**** Flight ****/
+    int flightNumber;                   //Number of the flight
+    int passengersCount;                //Number of Passengers that have landed
 
-    // Passenger
-    private PassengerStates[] passengerState;
-    private char[] flightState;                 // T - transit, E - end
-    private int[] numBags;                      // 0, 1 or 2
+    /**** Entities Information ****/
+    PorterStates porterState;           //State of the Porter
+    BusDriverStates busDriverState;     //State of the Bus Driver
+    PassengerStates[] passengerStates;  //State of the Passenger
 
-    // Bus Driver
-    private BusDriverStates driverState;
+    /**** Memory Regions ****/
 
-    /**
-     * Repository instantiation.
-     * @throws FileNotFoundException when there's no file
-     */
-    public RepositoryInfo() throws FileNotFoundException {
-        f = new File(SimulPar.FILENAME);
-        pw = new PrintWriter(f);
+    //Arrival Lounge
+    int luggageInPlaneHold;             //Number of Luggages in the plain hold
+    char passengersSituation[];         //Passengers situation
+    int passengersLuggage[];            //Luggage that the passengers brought in the begging of the journey
+    int passengersLuggageCollected[];   //Luggage that was collected by the passengers
 
-        porterState = PorterStates.WAITING_FOR_A_PLANE_TO_LAND;
+    //BaggageCollectionPoint
+    int luggageInConveyorBelt;          //Number of Luggages in the conveyor belt
 
-        passengerState = new PassengerStates[SimulPar.PASSENGERS];
-        for (int i = 0; i < SimulPar.PASSENGERS; i++) passengerState[i] = PassengerStates.AT_THE_DISEMBARKING_ZONE;
+    //TemporaryStorageArea
+    int luggageInStoreRoom;             //Number of Luggages in the store room
+
+    //ArrivalTerminalTransferQuay
+    int busWaitingQueue[];              //Passengers Waiting Queue
+    int busSeats[];                     //Passengers Seated on the Bus
+
+    public RepositoryInfo()  {
 
     }
 
-    /**
-     * Closes the printwriter when the simulation ends
-     */
+    public void init_repository(int flightNumber) {
+        this.flightNumber = flightNumber;
+        this.passengersCount = 0;
+        this.luggageInPlaneHold = 0;
+        this.porterState = PorterStates.WAITING_FOR_A_PLANE_TO_LAND;
+        this.busDriverState = BusDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL;
+        this.passengerStates = new PassengerStates[SimulPar.PASSENGERS];
+        for (int i = 0; i < SimulPar.PASSENGERS; i++) {
+            this.passengerStates[i] = PassengerStates.AT_THE_DISEMBARKING_ZONE;
+        }
+        this.busWaitingQueue = new int[SimulPar.PASSENGERS];
+        Arrays.fill(this.busWaitingQueue, -1);
+        this.busSeats = new int[SimulPar.BUS_CAPACITY];
+        Arrays.fill(this.busSeats, -1);
+        this.passengersSituation = new char[SimulPar.PASSENGERS];
+        Arrays.fill(this.passengersSituation, '-');
+        passengersLuggage = new int [SimulPar.PASSENGERS];
+        Arrays.fill(this.passengersLuggage, -1);
+        passengersLuggageCollected = new int [SimulPar.PASSENGERS];
+        Arrays.fill(this.passengersLuggageCollected, -1);
+    }
+
+    public void openWriter () throws IOException {
+        file = new File(SimulPar.FILENAME);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        printWriter = new PrintWriter(file);
+    }
+
     public void closeWriter() {
-        pw.close();
+        printWriter.close();
     }
 
-    /**
-     * @param porterState state of the porter
-     */
-    public synchronized void setPorterState(PorterStates porterState) {
-        if (this.porterState != porterState) {
-            this.porterState = porterState;
-            export();
+
+    /***** GETTERS AND SETTERS ****/
+
+    public synchronized int getPassengersCount() {
+        return passengersCount;
+    }
+
+    /***** ACTIONS *******/
+
+    public synchronized char passengerArrived(int id, boolean isFinalDestination, int numberOfLuggages) {
+        char action;
+        this.passengersCount++;
+        this.luggageInPlaneHold+= numberOfLuggages;
+        this.passengersLuggage[id] = numberOfLuggages;
+        this.passengerStates[id] = PassengerStates.AT_THE_DISEMBARKING_ZONE;
+        if (isFinalDestination)
+            this.passengersSituation[id] = 'F';
+        else
+            this.passengersSituation[id] = 'T';
+        if (!isFinalDestination) {              // Take a Bus
+            action = 'B';
+        } else if  (numberOfLuggages == 0) {    // Go Home
+            action = 'H';
+        } else {                                // Collect a Bag
+            action = 'C';
         }
+        this.logInternalState();
+        return action;
     }
 
-    /**
-     * @param id passenger id
-     * @param passengerState state of the passenger
-     */
-    public synchronized void setPassengerState(int id, PassengerStates passengerState, boolean export) {
-        if (this.passengerState[id] != passengerState) {
-            this.passengerState[id] = passengerState;
-            if(export) export();
+    public synchronized void removeLuggageInPlainHold() {
+        this.porterState = PorterStates.AT_THE_PLANES_HOLD;
+        this.luggageInPlaneHold--;
+        this.logInternalState();
+    }
+
+    public synchronized void removeLuggageInConveyorBelt() {
+        this.luggageInConveyorBelt--;
+        this.logInternalState();
+    }
+
+    public synchronized void registerLuggageInConveyorBelt() {
+        this.porterState = PorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR;
+        this.luggageInConveyorBelt++;
+        this.logInternalState();
+    }
+
+    public synchronized void removeLuggageInStoreRoom() {
+        this.luggageInStoreRoom--;
+        this.logInternalState();
+    }
+
+    public synchronized void registerLuggageInStoreRoom() {
+        this.porterState = PorterStates.AT_THE_STOREROOM;
+        this.luggageInStoreRoom++;
+        this.logInternalState();
+    }
+
+    public synchronized void registerCollectedLuggage(int id) {
+        if (this.passengersLuggageCollected[id] == -1) this.passengersLuggageCollected[id] = 0;
+        this.passengersLuggageCollected[id] ++;
+
+    }
+
+    /****** LOGGING ******/
+    private void log() {
+        String output = logInternalState();
+        printWriter.write(output);
+        printWriter.flush();
+    }
+
+    private String logInternalState() {
+        String str = "PLANE    PORTER                  DRIVER\n";
+        str = str.concat("FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3\n");
+        str = str.concat(String.format("%-3d%-4d%-5d%-3d%-5d%-6d",flightNumber, luggageInPlaneHold, porterState.ordinal(), luggageInConveyorBelt, luggageInStoreRoom, busDriverState.ordinal()));
+        for (int i = 0; i < SimulPar.PASSENGERS; i++) {
+            if (this.busWaitingQueue[i]!=-1) {
+                str = str.concat(String.format("%-3d", this.busWaitingQueue[i]));
+            } else {
+                str = str.concat("-  ");
+            }
         }
-    }
-
-    /**
-     * @param driverState state of the bus driver
-     */
-    public synchronized void setDriverState(BusDriverStates driverState) {
-        if (this.driverState != driverState) {
-            this.driverState = driverState;
-            export();
+        str = str.concat(" ");
+        for (int i = 0; i < SimulPar.BUS_CAPACITY; i++) {
+            if (this.busSeats[i]!=-1) {
+                str = str.concat(String.format("%-3d", this.busSeats[i]));
+            } else {
+                str = str.concat("-  ");
+            }
         }
-    }
+        str = str.concat("\n");
 
-    /**
-     * Prints the internal state and also saves it to a file.
-     */
-    private void export() {
-        String output = getInternalState();
-        System.out.println(output);
-        pw.write(output);
-        pw.flush();
-    }
 
-    /**
-     * Builds the string that represents the internal state.
-     * @return internal state of the problem as a string
-     */
-    private String getInternalState() {
-        return "";
+        str = str.concat("St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6\n");
+
+        for (int i = 0; i < SimulPar.PASSENGERS; i++) {
+            str = str.concat(String.format("%-4d", passengerStates[i].ordinal()));
+            String situation = "-";
+            if (passengersSituation[i] == 'T') situation = "TRT";
+            else if (passengersSituation[i] == 'F') situation = "FDT";
+            str = str.concat(String.format("%-4s", situation));
+            if (passengersLuggage[i] == -1) {
+                str = str.concat(String.format("%-4s", "-"));
+            } else {
+                str = str.concat(String.format("%-4d", passengersLuggage[i]));
+            }
+            if (passengersLuggageCollected[i] == -1) {
+                str = str.concat(String.format("%-4s", "-"));
+            } else {
+                str = str.concat(String.format("%-4d", passengersLuggageCollected[i]));
+            }
+        }
+        str = str.concat("\n\n");
+
+        System.out.println(str);
+
+        return str ;
     }
 }

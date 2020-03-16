@@ -5,71 +5,40 @@ import sharedRegions.*;
 
 public class Porter extends Thread {
 
-    /**
-     * Porter's state
-     * @serialField state
-     */
-    private PorterStates state;
+    private ArrivalLounge arrivalLounge;
+    private TemporaryStorageArea temporaryStorageArea;
+    private BaggageCollectionPoint baggageCollectionPoint;
 
-    /**
-     * If the plane hold is empty returns true
-     * @serialField planeHoldEmpty
-     */
-    private boolean planeHoldEmpty;
-
-    /**
-     * Bags in the hold
-     * @serialField bag
-     */
-    private BAG bag;
-
-    /**
-     * Lounge
-     * @serialField arrivalLounge
-     */
-    private ArrivalLounge lounge;
-
-    /**
-     * Temporary Storage
-     * @serialField temporaryStorage
-     */
-    private TemporaryStorageArea temporaryStorage;
-
-    /**
-     * Baggage Collection Point
-     * @serialField bagCollectPoint
-     */
-    private BaggageCollectionPoint bagCollectPoint;
-
-    /**
-     * General Repository of Information
-     * @serialField repo
-     */
-    private RepositoryInfo repo;
-
-    /**
-     * Porter instantiation
-     *
-     * @param l arrivalLounge
-     * @param ts temporaryStorageArea
-     * @param bcp baggageCollectionPoint
-     * @param r repositoryInfo
-     *
-     */
-    public Porter(ArrivalLounge l, TemporaryStorageArea ts, BaggageCollectionPoint bcp, RepositoryInfo r) {
+    public Porter(ArrivalLounge arrivalLounge,
+                  TemporaryStorageArea temporaryStorageArea,
+                  BaggageCollectionPoint baggageCollectionPoint
+    ) {
         super("Porter");
-        lounge = l;
-        temporaryStorage = ts;
-        bagCollectPoint = bcp;
-        repo = r;
-        state = PorterStates.WAITING_FOR_A_PLANE_TO_LAND;
+        this.arrivalLounge= arrivalLounge;
+        this.temporaryStorageArea= temporaryStorageArea;
+        this.baggageCollectionPoint = baggageCollectionPoint;
+
     }
 
-    /**
-     * Porter's lifecycle
-     */
     @Override
     public void run() {
+        Boolean planeHoldEmpty = false;
+        while (arrivalLounge.takeARest()) {
+
+            while (!planeHoldEmpty) {
+                BAG bag = arrivalLounge.tryToCollectABag();
+                if (bag.isFinalDestination()) {
+                    baggageCollectionPoint.carryItToAppropriateStore(bag);
+                } else {
+                    temporaryStorageArea.carryItToAppropriateStore(bag);
+                }
+
+                planeHoldEmpty = arrivalLounge.noMoreBagsToCollect();
+
+                if (planeHoldEmpty) baggageCollectionPoint.warningNoMoreBagsInThePlaneHold();
+            }
+        }
+
         /**
          * BAG bag;
          * boolean planeHoldEmpty;
@@ -93,21 +62,10 @@ public class Porter extends Thread {
          */
     }
 
-    /**
-     * Returns this Porter's state.
-     * @return porters's current state
-     */
-    public PorterStates getPorterState() {
-        return state;
-    }
 
-    /**
-     * Sets this porter's state.
-     * @param s the state to be set
-     */
-    public void setState(PorterStates s) {
-        //StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-        state = s;
+    private void logToConsole(String message) {
+        System.out.println(Thread.currentThread().getId() + ": " + message);
+
     }
 
 }

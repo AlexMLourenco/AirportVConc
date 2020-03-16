@@ -12,36 +12,28 @@ public class BusDriver extends Thread {
 
     /**
      * Arrival Terminal Transfer Quay
-     * @serialField arrTermTransfer
+     * @serialField arrivalTerminalTransferQuay
      */
-    private ArrivalTerminalTransferQuay arrTermTransfer;
+    private ArrivalTerminalTransferQuay arrivalTerminalTransferQuay;
 
     /**
      * Departure Terminal Transfer Quay
-     * @serialField depTermTransfer
+     * @serialField departureTerminalTransferQuay
      */
-    private DepartureTerminalTransferQuay depTermTransfer;
-
-    /**
-     * General Repository of Information
-     * @serialField repo
-     */
-    private RepositoryInfo repo;
+    private DepartureTerminalTransferQuay departureTerminalTransferQuay;
 
     /**
      * BusDriver instantiation
      *
-     * @param att arrivalTerminalTransferQuay
-     * @param dtt departureTerminalTransferQuay
-     * @param r repositoryInfo
+     * @param arrivalTerminalTransferQuay arrivalTerminalTransferQuay
+     * @param departureTerminalTransferQuay departureTerminalTransferQuay
      *
      */
-    public BusDriver(ArrivalTerminalTransferQuay att, DepartureTerminalTransferQuay dtt, RepositoryInfo r){
-        //super("BusDriver");
-        att = arrTermTransfer;
-        dtt = depTermTransfer;
-        repo = r;
-        state = BusDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL;
+    public BusDriver(ArrivalTerminalTransferQuay arrivalTerminalTransferQuay,
+                     DepartureTerminalTransferQuay departureTerminalTransferQuay){
+        super("Bus Driver");
+        this.arrivalTerminalTransferQuay = arrivalTerminalTransferQuay;
+        this.departureTerminalTransferQuay = departureTerminalTransferQuay;
     }
 
     /**
@@ -88,23 +80,6 @@ public class BusDriver extends Thread {
          *
          * }
          */
-    }
-
-    /**
-     * Returns this BusDriver's state
-     * @return BusDriver's current state
-     */
-    public BusDriverStates getBusDriverState() {
-        return state;
-    }
-
-    /**
-     * Sets this BusDriver's state
-     * @param s the state to be set
-     */
-    public void setState(BusDriverStates s) {
-        StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-        state = s;
     }
 
     /**

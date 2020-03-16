@@ -6,14 +6,14 @@ public class ArrivalTerminalExit {
      * General Repository of Information
      * @serialField repo
      */
-    private RepositoryInfo repo;
+    private RepositoryInfo repository;
 
     /**
      * Arrival Terminal Exit instantiation
-     @param repo repositoryInfo
+     @param repository repositoryInfo
      */
-    public ArrivalTerminalExit(RepositoryInfo repo){
-        this.repo = repo;
+    public ArrivalTerminalExit(RepositoryInfo repository){
+        this.repository = repository;
     }
 
     /* Passenger functions */
@@ -22,7 +22,7 @@ public class ArrivalTerminalExit {
      * Passenger enters in the bus
      * @return
      */
-    void enterTheBus(){
+    public void enterTheBus(){
 
     }
 
@@ -30,8 +30,9 @@ public class ArrivalTerminalExit {
      * Passenger goes home
      * @return
      */
-    void goHome(){
-
+    public synchronized void goHome(){
+        //Passenger passenger = (Passenger) Thread.currentThread();
+        //passenger.setPassengerState(PassengerStates.EXITING_THE_ARRIVAL_TERMINAL);
     }
 
 }
