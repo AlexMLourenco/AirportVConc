@@ -15,6 +15,10 @@ public class BaggageCollectionPoint {
 
     private Queue<BAG> bags;
 
+    /**
+     * Boolean to check if there are more bags in the plane hold
+     * @serialField noMoreBagsInThePlaneHold
+     */
     private boolean noMoreBagsInThePlaneHold;
 
     /**

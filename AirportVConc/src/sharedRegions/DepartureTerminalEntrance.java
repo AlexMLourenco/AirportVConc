@@ -4,7 +4,7 @@ public class DepartureTerminalEntrance {
 
     /**
      * General Repository of Information
-     * @serialField repo
+     * @serialField repository
      */
     private RepositoryInfo repository;
 

@@ -3,22 +3,26 @@ package sharedRegions;
 import java.util.*;
 
 import mainProject.*;
-
 import commonInfra.BAG;
 
 public class ArrivalLounge {
 
     private RepositoryInfo repository;
-    Stack<BAG> planeHold;
+    Stack<BAG> planeHold;   // Change
 
+    /**
+     * Arrival Lounge instantiation
+     @param repository repositoryInfo
+     */
     public ArrivalLounge(RepositoryInfo repository){
         this.repository= repository;
         this.planeHold = new Stack<>();
     }
 
     /*****  PORTER FUNCTIONS  (Calls executed by the Porter)*****/
+
     public synchronized boolean takeARest(){
-        //We have to wait until all the passengers got out of the plane
+        // We have to wait until all the passengers got out of the plane
         while(repository.getPassengersCount()!= SimulPar.PASSENGERS){
             System.out.println("Porter Waiting! Current Passenger count: " + repository.getPassengersCount());
             try{
@@ -38,6 +42,7 @@ public class ArrivalLounge {
     }
 
     /***** PASSENGER FUNCTIONS *********/
+
     public synchronized char whatShouldIDo(int id, boolean isFinalDestination, int numberOfLuggages) {
         System.out.println("Passenger " + id + " arrived with " + numberOfLuggages + " luggages and final destination " + isFinalDestination);
         for (int i = 0; i < numberOfLuggages; i++) {
@@ -50,8 +55,6 @@ public class ArrivalLounge {
 
     void setEndOfWork() {
         // variavel que conte os passageiros que chegam em cada voo (int)
-
     }
-
 
 }

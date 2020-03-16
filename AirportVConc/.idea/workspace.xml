@@ -3,20 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5836ffb8-bdbc-423f-b805-42b81f6101f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonInfra/BAG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonInfra/BAG.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/BusDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/BusDriver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Passenger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Porter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Porter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainProject/AirportVConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainProject/AirportVConc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sharedRegions/ArrivalLounge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/ArrivalLounge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sharedRegions/ArrivalTerminalExit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/ArrivalTerminalExit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sharedRegions/ArrivalTerminalTransferQuay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/ArrivalTerminalTransferQuay.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sharedRegions/BaggageCollectionPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/BaggageCollectionPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sharedRegions/BaggageReclaimOffice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/BaggageReclaimOffice.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sharedRegions/DepartureTerminalEntrance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/DepartureTerminalEntrance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sharedRegions/DepartureTerminalTransferQuay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/DepartureTerminalTransferQuay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sharedRegions/RepositoryInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/RepositoryInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sharedRegions/TemporaryStorageArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/TemporaryStorageArea.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

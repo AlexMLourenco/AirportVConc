@@ -20,6 +20,20 @@ public class Passenger extends Thread {
     private BaggageCollectionPoint baggageCollectionPoint;
     private BaggageReclaimOffice baggageReclaimOffice;
 
+    /**
+     * Passenger instantiation
+     *
+     * @param identifier
+     * @param flight
+     * @param arrivalLounge BaggageCollectionPoint
+     * @param arrivalTerminalTransferQuay
+     * @param arrivalTerminalExit
+     * @param departureTerminalTransferQuay
+     * @param departureTerminalEntrance
+     * @param baggageCollectionPoint
+     * @param baggageReclaimOffice
+     *
+     */
     public Passenger(int identifier,
                      int flight,
                      ArrivalLounge arrivalLounge,
@@ -44,11 +58,16 @@ public class Passenger extends Thread {
 
     }
 
-
+    /**
+     * Identifier of the Passenger
+     * */
     public int getIdentifier() {
         return identifier;
     }
 
+    /**
+     * Passenger's lifecycle
+     */
     @Override
     public void run() {
         isFinalDestination = (Math.random() < 0.5);
@@ -105,12 +124,10 @@ public class Passenger extends Thread {
          arrivalTerminalExit.goHome();
          }
          }**/
-
-
     }
-
 
     public void increaseCollectedLuggages() {
         this.numberOfCollectedLuggages++;
     }
+
 }

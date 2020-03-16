@@ -3,8 +3,7 @@ package sharedRegions;
 import java.util.*;
 
 import mainProject.*;
-
-import commonInfra.FIFO;
+import commonInfra.*;
 
 public class ArrivalTerminalTransferQuay {
 

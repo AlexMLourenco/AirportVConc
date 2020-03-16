@@ -9,17 +9,26 @@ public class Porter extends Thread {
     private TemporaryStorageArea temporaryStorageArea;
     private BaggageCollectionPoint baggageCollectionPoint;
 
+    /**
+     * Porter instantiation
+     *
+     * @param arrivalLounge ArrivalLounge
+     * @param temporaryStorageArea TemporaryStorageArea
+     * @param baggageCollectionPoint BaggageCollectionPoint
+     *
+     */
     public Porter(ArrivalLounge arrivalLounge,
                   TemporaryStorageArea temporaryStorageArea,
-                  BaggageCollectionPoint baggageCollectionPoint
-    ) {
+                  BaggageCollectionPoint baggageCollectionPoint) {
         super("Porter");
         this.arrivalLounge= arrivalLounge;
         this.temporaryStorageArea= temporaryStorageArea;
         this.baggageCollectionPoint = baggageCollectionPoint;
-
     }
 
+    /**
+     * Porter's lifecycle
+     */
     @Override
     public void run() {
         Boolean planeHoldEmpty = false;
@@ -61,7 +70,6 @@ public class Porter extends Thread {
          * }
          */
     }
-
 
     private void logToConsole(String message) {
         System.out.println(Thread.currentThread().getId() + ": " + message);
