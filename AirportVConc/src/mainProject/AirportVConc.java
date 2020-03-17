@@ -39,6 +39,8 @@ public class AirportVConc {
             porter.start();
             busDriver.start();
 
+            repository.headerState();
+
             for (int flightNumber = 0; flightNumber < LANDINGS; flightNumber ++) {
 
                 repository.init_repository(flightNumber);

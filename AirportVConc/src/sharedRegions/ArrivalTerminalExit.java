@@ -1,5 +1,7 @@
 package sharedRegions;
 
+import java.util.Queue;
+
 public class ArrivalTerminalExit {
 
     /**
@@ -7,6 +9,8 @@ public class ArrivalTerminalExit {
      * @serialField repo
      */
     private RepositoryInfo repository;
+
+    private Queue<Integer> inTheBus;
 
     /**
      * Arrival Terminal Exit instantiation
@@ -23,6 +27,10 @@ public class ArrivalTerminalExit {
      * @return
      */
     public void enterTheBus(int id){
+        System.out.println("Passenger " + id + " is entering the bus!");
+        // TODO: falta condiçao para verificar 3 primeiros
+        // remover da lista de espera
+        // adicionar ao bus
 
     }
 

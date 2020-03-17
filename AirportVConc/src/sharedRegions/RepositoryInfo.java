@@ -153,16 +153,36 @@ public class RepositoryInfo {
         }
     }
 
+    public synchronized void registerPassengerToEnterTheBus(int id) {
+        for (int i= 0; i < SimulPar.BUS_CAPACITY; i++) {
+            if (busSeats[i] == -1) {
+                busSeats[i] = id;
+                passengerStates[id] = PassengerStates.TERMINAL_TRANSFER;
+                break;
+            }
+        }
+    }
+
     /****** LOGGING ******/
     private void log() {
-        String output = logInternalState();
+        String output = headerState();
+        String states = logInternalState();
+        output = output.concat(states);
         printWriter.write(output);
         printWriter.flush();
     }
-
-    private String logInternalState() {
+    public String headerState() {
         String str = "PLANE    PORTER                  DRIVER\n";
         str = str.concat("FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3\n");
+        str = str.concat("St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6");
+
+        System.out.println(str);
+
+        return str;
+    }
+
+    private String logInternalState() {
+        String str = "";
         str = str.concat(String.format("%-3d%-4d%-5s%-3d%-5d%-6s",(flightNumber+1), luggageInPlaneHold, porterState.getValue(), luggageInConveyorBelt, luggageInStoreRoom, busDriverState.getValue()));
         for (int i = 0; i < SimulPar.PASSENGERS; i++) {
             if (this.busWaitingQueue[i]!=-1) {
@@ -181,9 +201,6 @@ public class RepositoryInfo {
         }
         str = str.concat("\n");
 
-
-        str = str.concat("St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6\n");
-
         for (int i = 0; i < SimulPar.PASSENGERS; i++) {
             str = str.concat(String.format("%-4s", passengerStates[i].getValue()));
             String situation = "-";
@@ -201,7 +218,7 @@ public class RepositoryInfo {
                 str = str.concat(String.format("%-4d", passengersLuggageCollected[i]));
             }
         }
-        str = str.concat("\n\n");
+        //str = str.concat("\n\n");
 
         System.out.println(str);
 

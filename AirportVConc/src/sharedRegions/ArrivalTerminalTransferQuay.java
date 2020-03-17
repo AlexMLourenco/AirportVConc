@@ -8,9 +8,6 @@ public class ArrivalTerminalTransferQuay {
 
     private RepositoryInfo repository;
 
-    //private FIFO waitingForBus;
-
-    // Alterar
     private Queue<Integer> waitingForBus;
 
     public ArrivalTerminalTransferQuay(RepositoryInfo repository){
@@ -21,7 +18,7 @@ public class ArrivalTerminalTransferQuay {
     /* Passenger functions */
 
     public synchronized void takeABus(int id){
-        System.out.println("Passenger " + id + " is waiting for a bus!");
+        //System.out.println("Passenger " + id + " is waiting for a bus!");
         waitingForBus.add(id);
         repository.registerPassengerToTakeABus(id);
          // Add the passengers to the list of passengers waiting for the bus

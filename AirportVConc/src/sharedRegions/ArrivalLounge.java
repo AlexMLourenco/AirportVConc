@@ -24,7 +24,7 @@ public class ArrivalLounge {
     public synchronized boolean takeARest(){
         // We have to wait until all the passengers got out of the plane
         while(repository.getPassengersCount()!= SimulPar.PASSENGERS){
-            System.out.println("Porter Waiting! Current Passenger count: " + repository.getPassengersCount());
+            //System.out.println("Porter Waiting! Current Passenger count: " + repository.getPassengersCount());
             try{
                 wait();
             }catch(InterruptedException e){}
@@ -44,7 +44,7 @@ public class ArrivalLounge {
     /***** PASSENGER FUNCTIONS *********/
 
     public synchronized char whatShouldIDo(int id, boolean isFinalDestination, int numberOfLuggages) {
-        System.out.println("Passenger " + id + " arrived with " + numberOfLuggages + " luggages and final destination " + isFinalDestination);
+        //System.out.println("Passenger " + id + " arrived with " + numberOfLuggages + " luggages and final destination " + isFinalDestination);
         for (int i = 0; i < numberOfLuggages; i++) {
             planeHold.push(new BAG(id,isFinalDestination));
         }
