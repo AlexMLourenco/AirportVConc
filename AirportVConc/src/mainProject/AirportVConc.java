@@ -32,8 +32,8 @@ public class AirportVConc {
             TemporaryStorageArea temporaryStorageArea = new TemporaryStorageArea(repository);
 
             /** Entities **/
-            Porter porter = new Porter(arrivalLounge, temporaryStorageArea, baggageCollectionPoint);
-            BusDriver busDriver = new BusDriver(arrivalTerminalTransferQuay, departureTerminalTransferQuay);
+            Porter porter = new Porter(arrivalLounge, temporaryStorageArea, baggageCollectionPoint, repository);
+            BusDriver busDriver = new BusDriver(arrivalTerminalTransferQuay, departureTerminalTransferQuay, repository);
             Passenger[] passengers = new Passenger[PASSENGERS];
 
             porter.start();
@@ -54,6 +54,13 @@ public class AirportVConc {
                 }
                 //repository.closeWriter();
             }
+
+            repository.setKeepBusDriverAlive(false);
+            repository.setKeepPorterAlive(false);
+
+            porter.join();
+            busDriver.join();
+
         }  catch (Exception ex) {
             System.out.println(ex);
         }

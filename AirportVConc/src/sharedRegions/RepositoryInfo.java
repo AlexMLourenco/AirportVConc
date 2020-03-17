@@ -19,6 +19,11 @@ public class RepositoryInfo {
     BusDriverStates busDriverState;     //State of the Bus Driver
     PassengerStates[] passengerStates;  //State of the Passenger
 
+    /**** Threads Information ****/
+    boolean keepBusDriverAlive;         //Keep the Bus Driver Thread Alive
+    boolean keepPorterAlive;            //Keep the Porter Thread Alive
+
+
     /**** Memory Regions ****/
 
     //Arrival Lounge
@@ -38,10 +43,11 @@ public class RepositoryInfo {
     int busSeats[];                     //Passengers Seated on the Bus
 
     public RepositoryInfo()  {
-
+        this.setKeepPorterAlive(true);
+        this.setKeepBusDriverAlive(true);
     }
 
-    public void init_repository(int flightNumber) {
+    public synchronized void init_repository(int flightNumber) {
         this.flightNumber = flightNumber;
         this.passengersCount = 0;
         this.luggageInPlaneHold = 0;
@@ -49,7 +55,7 @@ public class RepositoryInfo {
         this.busDriverState = BusDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL;
         this.passengerStates = new PassengerStates[SimulPar.PASSENGERS];
         for (int i = 0; i < SimulPar.PASSENGERS; i++) {
-            this.passengerStates[i] = PassengerStates.AT_THE_DISEMBARKING_ZONE;
+            this.passengerStates[i] = PassengerStates.WHAT_SHOULD_I_DO;
         }
         this.busWaitingQueue = new int[SimulPar.PASSENGERS];
         Arrays.fill(this.busWaitingQueue, -1);
@@ -89,7 +95,7 @@ public class RepositoryInfo {
         this.passengersCount++;
         this.luggageInPlaneHold+= numberOfLuggages;
         this.passengersLuggage[id] = numberOfLuggages;
-        this.passengerStates[id] = PassengerStates.AT_THE_DISEMBARKING_ZONE;
+        this.passengerStates[id] = PassengerStates.WHAT_SHOULD_I_DO;
         if (isFinalDestination)
             this.passengersSituation[id] = 'F';
         else
@@ -101,7 +107,6 @@ public class RepositoryInfo {
         } else {                                // Collect a Bag
             action = 'C';
         }
-        this.logInternalState();
         return action;
     }
 
@@ -136,7 +141,16 @@ public class RepositoryInfo {
     public synchronized void registerCollectedLuggage(int id) {
         if (this.passengersLuggageCollected[id] == -1) this.passengersLuggageCollected[id] = 0;
         this.passengersLuggageCollected[id] ++;
+    }
 
+    public synchronized void registerPassengerToTakeABus(int id) {
+        for (int i= 0; i < SimulPar.PASSENGERS; i++) {
+            if (busWaitingQueue[i] == -1) {
+                busWaitingQueue[i] = id;
+                passengerStates[id] = PassengerStates.AT_THE_ARRIVAL_TRANSFER_TERMINAL;
+                break;
+            }
+        }
     }
 
     /****** LOGGING ******/
@@ -149,7 +163,7 @@ public class RepositoryInfo {
     private String logInternalState() {
         String str = "PLANE    PORTER                  DRIVER\n";
         str = str.concat("FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3\n");
-        str = str.concat(String.format("%-3d%-4d%-5d%-3d%-5d%-6d",flightNumber, luggageInPlaneHold, porterState.ordinal(), luggageInConveyorBelt, luggageInStoreRoom, busDriverState.ordinal()));
+        str = str.concat(String.format("%-3d%-4d%-5s%-3d%-5d%-6s",flightNumber, luggageInPlaneHold, porterState.getValue(), luggageInConveyorBelt, luggageInStoreRoom, busDriverState.getValue()));
         for (int i = 0; i < SimulPar.PASSENGERS; i++) {
             if (this.busWaitingQueue[i]!=-1) {
                 str = str.concat(String.format("%-3d", this.busWaitingQueue[i]));
@@ -171,7 +185,7 @@ public class RepositoryInfo {
         str = str.concat("St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6\n");
 
         for (int i = 0; i < SimulPar.PASSENGERS; i++) {
-            str = str.concat(String.format("%-4d", passengerStates[i].ordinal()));
+            str = str.concat(String.format("%-4s", passengerStates[i].getValue()));
             String situation = "-";
             if (passengersSituation[i] == 'T') situation = "TRT";
             else if (passengersSituation[i] == 'F') situation = "FDT";
@@ -192,5 +206,21 @@ public class RepositoryInfo {
         System.out.println(str);
 
         return str ;
+    }
+
+    public synchronized void setKeepBusDriverAlive(boolean keepBusDriverAlive) {
+        this.keepBusDriverAlive = keepBusDriverAlive;
+    }
+
+    public synchronized void setKeepPorterAlive(boolean keepPorterAlive) {
+        this.keepPorterAlive = keepPorterAlive;
+    }
+
+    public synchronized boolean isKeepBusDriverAlive() {
+        return keepBusDriverAlive;
+    }
+
+    public synchronized boolean isKeepPorterAlive() {
+        return keepPorterAlive;
     }
 }

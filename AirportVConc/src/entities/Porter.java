@@ -8,6 +8,7 @@ public class Porter extends Thread {
     private ArrivalLounge arrivalLounge;
     private TemporaryStorageArea temporaryStorageArea;
     private BaggageCollectionPoint baggageCollectionPoint;
+    private RepositoryInfo repository;
 
     /**
      * Porter instantiation
@@ -19,11 +20,13 @@ public class Porter extends Thread {
      */
     public Porter(ArrivalLounge arrivalLounge,
                   TemporaryStorageArea temporaryStorageArea,
-                  BaggageCollectionPoint baggageCollectionPoint) {
+                  BaggageCollectionPoint baggageCollectionPoint,
+                  RepositoryInfo repository) {
         super("Porter");
         this.arrivalLounge= arrivalLounge;
         this.temporaryStorageArea= temporaryStorageArea;
         this.baggageCollectionPoint = baggageCollectionPoint;
+        this.repository = repository;
     }
 
     /**
@@ -32,7 +35,7 @@ public class Porter extends Thread {
     @Override
     public void run() {
         Boolean planeHoldEmpty = false;
-        while (arrivalLounge.takeARest()) {
+        while (arrivalLounge.takeARest() && repository.isKeepPorterAlive()) {
 
             while (!planeHoldEmpty) {
                 BAG bag = arrivalLounge.tryToCollectABag();

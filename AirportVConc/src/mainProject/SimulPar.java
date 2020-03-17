@@ -25,6 +25,22 @@ public class SimulPar {
     public static final int BUS_CAPACITY = 3;
 
     /**
+     * Bus Driver Departure Schedule (every x millis)
+     */
+    public static final int BUS_SCHEDULE_MILLIS = 2000;
+
+    /**
+     * Bus Driver End Of Day at (every x millis)
+     */
+    public static final int BUS_END_OF_DAY_MILLIS = 10000;
+
+    /**
+     * Bus Driver sleep until restart new day (millis)
+     */
+    public static final int BUS_SLEEP_MILLIS= 10000;
+
+
+    /**
      * Minimum milliseconds to wakeup.
      */
     public static final int MIN_SLEEP = 5;
@@ -38,7 +54,5 @@ public class SimulPar {
      * Repository log filename
      */
     public static final String FILENAME = "log_" + new Date().toString().replace(' ', '_') + ".txt";
-
-
 
 }

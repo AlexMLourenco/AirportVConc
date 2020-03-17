@@ -22,7 +22,7 @@ public class ArrivalTerminalExit {
      * Passenger enters in the bus
      * @return
      */
-    public void enterTheBus(){
+    public void enterTheBus(int id){
 
     }
 

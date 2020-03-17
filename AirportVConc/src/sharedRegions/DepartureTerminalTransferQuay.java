@@ -22,7 +22,7 @@ public class DepartureTerminalTransferQuay {
      * Passenger leaves the bus
      * @return
      */
-    public void leaveTheBus(){
+    public synchronized void leaveTheBus(){
 
     }
 
@@ -30,7 +30,7 @@ public class DepartureTerminalTransferQuay {
      * Driver parks the bus and let the passengers off
      * @return
      */
-    void parkTheBus(){
+    public synchronized void parkTheBusAndLetPassOff(){
 
     }
 

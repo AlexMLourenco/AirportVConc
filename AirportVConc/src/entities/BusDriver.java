@@ -1,46 +1,59 @@
 package entities;
 
+import mainProject.SimulPar;
 import sharedRegions.*;
 
 public class BusDriver extends Thread {
 
-    /**
-     * BusDriver's state
-     * @serialField state
-     */
-    private BusDriverStates state;
+    private long activityStarted;
 
-    /**
-     * Arrival Terminal Transfer Quay
-     * @serialField arrivalTerminalTransferQuay
-     */
     private ArrivalTerminalTransferQuay arrivalTerminalTransferQuay;
-
-    /**
-     * Departure Terminal Transfer Quay
-     * @serialField departureTerminalTransferQuay
-     */
     private DepartureTerminalTransferQuay departureTerminalTransferQuay;
+    private RepositoryInfo repository;
 
-    /**
-     * BusDriver instantiation
-     *
-     * @param arrivalTerminalTransferQuay arrivalTerminalTransferQuay
-     * @param departureTerminalTransferQuay departureTerminalTransferQuay
-     *
-     */
     public BusDriver(ArrivalTerminalTransferQuay arrivalTerminalTransferQuay,
-                     DepartureTerminalTransferQuay departureTerminalTransferQuay){
+                     DepartureTerminalTransferQuay departureTerminalTransferQuay,
+                     RepositoryInfo repository){
         super("Bus Driver");
         this.arrivalTerminalTransferQuay = arrivalTerminalTransferQuay;
         this.departureTerminalTransferQuay = departureTerminalTransferQuay;
+        this.repository = repository;
     }
 
-    /**
-     * BusDriver's lifecycle
-     */
+    private void checkWorkDayEnded() {
+        if ((System.nanoTime() / 1000) - activityStarted > SimulPar.BUS_END_OF_DAY_MILLIS) {
+            try {
+                sleep(SimulPar.BUS_SLEEP_MILLIS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            activityStarted = System.nanoTime() / 1000;
+        }
+    }
+
+    private void goToDepartureTerminal(){
+            //Sleep
+    }
+
+    private void goToArrivalTerminal(){
+        //Sleep
+    }
+
     @Override
     public void run() {
+        activityStarted = System.nanoTime() / 1000;
+        while (repository.isKeepBusDriverAlive()) {
+            this.checkWorkDayEnded();
+            arrivalTerminalTransferQuay.readyToDeparture();
+            this.goToDepartureTerminal();
+            //Deixar os passageiros sair
+            departureTerminalTransferQuay.parkTheBusAndLetPassOff();
+            this.goToArrivalTerminal();
+
+
+
+        }
+
 
         /**
          * boolean readyToGo = true;
@@ -82,20 +95,7 @@ public class BusDriver extends Thread {
          */
     }
 
-    /**
-     * Driver goes to the Departure Terminal
-     *
-     */
-    /**public void goToDepartureTerminal(){
 
-    }*/
 
-    /**
-     * Driver goes to the Arrival Terminal
-     *
-     */
-    /**public void goToArrivalTerminal(){
-
-    }*/
 
 }
