@@ -163,7 +163,7 @@ public class RepositoryInfo {
     private String logInternalState() {
         String str = "PLANE    PORTER                  DRIVER\n";
         str = str.concat("FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3\n");
-        str = str.concat(String.format("%-3d%-4d%-5s%-3d%-5d%-6s",flightNumber, luggageInPlaneHold, porterState.getValue(), luggageInConveyorBelt, luggageInStoreRoom, busDriverState.getValue()));
+        str = str.concat(String.format("%-3d%-4d%-5s%-3d%-5d%-6s",(flightNumber+1), luggageInPlaneHold, porterState.getValue(), luggageInConveyorBelt, luggageInStoreRoom, busDriverState.getValue()));
         for (int i = 0; i < SimulPar.PASSENGERS; i++) {
             if (this.busWaitingQueue[i]!=-1) {
                 str = str.concat(String.format("%-3d", this.busWaitingQueue[i]));

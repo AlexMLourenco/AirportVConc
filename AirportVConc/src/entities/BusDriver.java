@@ -1,7 +1,10 @@
 package entities;
 
+import mainProject.AirportVConc;
 import mainProject.SimulPar;
 import sharedRegions.*;
+
+import java.util.Random;
 
 public class BusDriver extends Thread {
 
@@ -32,11 +35,15 @@ public class BusDriver extends Thread {
     }
 
     private void goToDepartureTerminal(){
-            //Sleep
+        try {
+            sleep((long) (new Random().nextInt(SimulPar.MAX_SLEEP - SimulPar.MIN_SLEEP+1) + SimulPar.MAX_SLEEP));
+        } catch (InterruptedException e) {}
     }
 
     private void goToArrivalTerminal(){
-        //Sleep
+        try {
+            sleep((long) (new Random().nextInt(SimulPar.MAX_SLEEP - SimulPar.MIN_SLEEP+1) + SimulPar.MAX_SLEEP));
+        } catch (InterruptedException e) {}
     }
 
     @Override
