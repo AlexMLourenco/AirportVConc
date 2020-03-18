@@ -83,10 +83,12 @@ public class Passenger extends Thread {
         switch (action) {
             case 'B':
                 arrivalTerminalTransferQuay.takeABus(identifier);
+                //temos de eliminar os itens da queue (quando???)
                 arrivalTerminalTransferQuay.waitForBus(identifier);  //Esperar que o autocarro chegue
+                System.out.println("Passenger " + identifier + "ready to take the bus");
                 arrivalTerminalExit.enterTheBus(identifier);
                 //Esperar que o autocarro chegue ao destino
-                departureTerminalTransferQuay.leaveTheBus();
+                departureTerminalTransferQuay.leaveTheBus(identifier);
 
                 departureTerminalEntrance.prepareNextLeg();
                 break;

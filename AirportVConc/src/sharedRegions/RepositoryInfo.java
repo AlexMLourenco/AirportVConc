@@ -88,6 +88,31 @@ public class RepositoryInfo {
         return passengersCount;
     }
 
+    public synchronized int getSeatsOccupied() {
+        int occupied = 0;
+        for(int i=0; i<busSeats.length; i++){
+            if(busSeats[i] != -1) occupied++;
+            else continue;
+        }
+        return occupied;
+    }
+
+    public synchronized void setKeepBusDriverAlive(boolean keepBusDriverAlive) {
+        this.keepBusDriverAlive = keepBusDriverAlive;
+    }
+
+    public synchronized void setKeepPorterAlive(boolean keepPorterAlive) {
+        this.keepPorterAlive = keepPorterAlive;
+    }
+
+    public synchronized boolean isKeepBusDriverAlive() {
+        return keepBusDriverAlive;
+    }
+
+    public synchronized boolean isKeepPorterAlive() {
+        return keepPorterAlive;
+    }
+
     /***** ACTIONS *******/
 
     public synchronized char passengerArrived(int id, boolean isFinalDestination, int numberOfLuggages) {
@@ -107,6 +132,7 @@ public class RepositoryInfo {
         } else {                                // Collect a Bag
             action = 'C';
         }
+        this.logInternalState();
         return action;
     }
 
@@ -156,11 +182,26 @@ public class RepositoryInfo {
     public synchronized void registerPassengerToEnterTheBus(int id) {
         for (int i= 0; i < SimulPar.BUS_CAPACITY; i++) {
             if (busSeats[i] == -1) {
-                busSeats[i] = id;
+                busSeats[i] = id;           // Add to bus
+                busWaitingQueue[i] = -1;    // Remove from waiting list
                 passengerStates[id] = PassengerStates.TERMINAL_TRANSFER;
                 break;
             }
         }
+    }
+
+    public synchronized void registerPassengerLeavesTheBus(int id) {
+
+    }
+
+    public synchronized int getInTheBusCount() {
+        int cont = 0;
+        for (int i= 0; i < SimulPar.BUS_CAPACITY; i++) {
+            if (busSeats[i]!= -1) {
+                cont++;
+            }
+        }
+        return cont;
     }
 
     /****** LOGGING ******/
@@ -171,6 +212,7 @@ public class RepositoryInfo {
         printWriter.write(output);
         printWriter.flush();
     }
+
     public String headerState() {
         String str = "PLANE    PORTER                  DRIVER\n";
         str = str.concat("FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3\n");
@@ -218,26 +260,8 @@ public class RepositoryInfo {
                 str = str.concat(String.format("%-4d", passengersLuggageCollected[i]));
             }
         }
-        //str = str.concat("\n\n");
-
         System.out.println(str);
 
         return str ;
-    }
-
-    public synchronized void setKeepBusDriverAlive(boolean keepBusDriverAlive) {
-        this.keepBusDriverAlive = keepBusDriverAlive;
-    }
-
-    public synchronized void setKeepPorterAlive(boolean keepPorterAlive) {
-        this.keepPorterAlive = keepPorterAlive;
-    }
-
-    public synchronized boolean isKeepBusDriverAlive() {
-        return keepBusDriverAlive;
-    }
-
-    public synchronized boolean isKeepPorterAlive() {
-        return keepPorterAlive;
     }
 }

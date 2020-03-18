@@ -22,8 +22,8 @@ public class DepartureTerminalTransferQuay {
      * Passenger leaves the bus
      * @return
      */
-    public synchronized void leaveTheBus(){
-
+    public synchronized void leaveTheBus(int id){
+        // TODO: leaveTheBus
     }
 
     /**

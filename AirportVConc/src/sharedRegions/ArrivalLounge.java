@@ -44,7 +44,7 @@ public class ArrivalLounge {
     /***** PASSENGER FUNCTIONS *********/
 
     public synchronized char whatShouldIDo(int id, boolean isFinalDestination, int numberOfLuggages) {
-        //System.out.println("Passenger " + id + " arrived with " + numberOfLuggages + " luggages and final destination " + isFinalDestination);
+        System.out.println("Passenger " + id + " arrived with " + numberOfLuggages + " luggages and final destination " + isFinalDestination);
         for (int i = 0; i < numberOfLuggages; i++) {
             planeHold.push(new BAG(id,isFinalDestination));
         }

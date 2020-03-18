@@ -23,6 +23,7 @@ public class BaggageReclaimOffice {
      * @return
      */
     public synchronized void reportMissingBag(){
+        // TODO: reportMissingBag
         //Passenger passenger = (Passenger) Thread.currentThread();
         //passenger.setPassengerState(PassengerStates.AT_THE_BAGGAGE_RECLAIM_OFFICE);
 

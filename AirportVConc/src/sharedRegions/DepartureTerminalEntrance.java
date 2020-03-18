@@ -22,8 +22,8 @@ public class DepartureTerminalEntrance {
      * Passenger prepares the next
      * @return
      */
-    public void prepareNextLeg(){
-
+    public synchronized void prepareNextLeg(){
+        // TODO: prepareNextLeg
     }
 
 }
