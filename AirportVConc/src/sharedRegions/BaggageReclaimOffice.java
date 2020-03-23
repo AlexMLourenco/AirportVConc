@@ -1,31 +1,24 @@
 package sharedRegions;
 
+import entities.Passenger;
+import entities.PassengerStates;
+
 public class BaggageReclaimOffice {
 
-    /**
-     * General Repository of Information
-     * @serialField repository
-     */
     private RepositoryInfo repository;
 
-    /**
-     * Baggage Reclaim Office instantiation
-     @param repository repositoryInfo
-     */
     public BaggageReclaimOffice(RepositoryInfo repository){
         this.repository = repository;
     }
 
-    /* Passenger functions */
-
-    /**
-     * Passenger reports a missing bag
-     * @return
-     */
+    /***** PASSENGER FUNCTIONS *********/
     public synchronized void reportMissingBag(){
-        // TODO: reportMissingBag
-        //Passenger passenger = (Passenger) Thread.currentThread();
-        //passenger.setPassengerState(PassengerStates.AT_THE_BAGGAGE_RECLAIM_OFFICE);
+
+        Passenger passenger = (Passenger) Thread.currentThread();
+        repository.setPassengerState(passenger.getIdentifier(), PassengerStates.AT_THE_BAGGAGE_RECLAIM_OFFICE);
+        try {
+            passenger.sleep(2000);
+        } catch (Exception e) { }
 
     }
 

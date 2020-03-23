@@ -1,13 +1,16 @@
 package entities;
 
-import mainProject.*;
-import sharedRegions.*;
-
-import java.util.*;
+import mainProject.SimulPar;
+import sharedRegions.ArrivalLounge;
+import sharedRegions.ArrivalTerminalExit;
+import sharedRegions.ArrivalTerminalTransferQuay;
+import sharedRegions.BaggageCollectionPoint;
+import sharedRegions.BaggageReclaimOffice;
+import sharedRegions.DepartureTerminalEntrance;
+import sharedRegions.DepartureTerminalTransferQuay;
 
 public class Passenger extends Thread {
     private int identifier;
-    private int flight;
     private boolean isFinalDestination;
     private int numberOfLuggages;
     private int numberOfCollectedLuggages;
@@ -20,22 +23,9 @@ public class Passenger extends Thread {
     private BaggageCollectionPoint baggageCollectionPoint;
     private BaggageReclaimOffice baggageReclaimOffice;
 
-    /**
-     * Passenger instantiation
-     *
-     * @param identifier
-     * @param flight
-     * @param arrivalLounge BaggageCollectionPoint
-     * @param arrivalTerminalTransferQuay
-     * @param arrivalTerminalExit
-     * @param departureTerminalTransferQuay
-     * @param departureTerminalEntrance
-     * @param baggageCollectionPoint
-     * @param baggageReclaimOffice
-     *
-     */
     public Passenger(int identifier,
-                     int flight,
+                     int numberOfLuggages,
+                     boolean isFinalDestination,
                      ArrivalLounge arrivalLounge,
                      ArrivalTerminalTransferQuay arrivalTerminalTransferQuay,
                      ArrivalTerminalExit arrivalTerminalExit,
@@ -43,9 +33,11 @@ public class Passenger extends Thread {
                      DepartureTerminalEntrance departureTerminalEntrance,
                      BaggageCollectionPoint baggageCollectionPoint,
                      BaggageReclaimOffice baggageReclaimOffice){
+
         super("Passenger "+ identifier);
         this.identifier = identifier;
-        this.flight = flight;
+        this.numberOfLuggages = numberOfLuggages;
+        this.isFinalDestination = isFinalDestination;
         this.numberOfCollectedLuggages = 0;
         this.arrivalLounge = arrivalLounge;
         this.arrivalTerminalTransferQuay = arrivalTerminalTransferQuay;
@@ -55,80 +47,35 @@ public class Passenger extends Thread {
         this.baggageCollectionPoint = baggageCollectionPoint;
         this.baggageReclaimOffice = baggageReclaimOffice;
 
-
     }
 
-    /**
-     * Identifier of the Passenger
-     * */
     public int getIdentifier() {
         return identifier;
     }
 
-    /**
-     * Passenger's lifecycle
-     */
     @Override
     public void run() {
-        isFinalDestination = (Math.random() < 0.5);
-        numberOfLuggages = new Random().nextInt(SimulPar.LUGGAGE+1);
-
         char action = arrivalLounge.whatShouldIDo(identifier, isFinalDestination, numberOfLuggages);
 
-        //actions
-        // B - Take a bus
-        // C - Collect Bag
-        // H - Go Home
-
         switch (action) {
-            case 'B':
+            case 'B':  // B - Take a bus
                 arrivalTerminalTransferQuay.takeABus(identifier);
-                //temos de eliminar os itens da queue (quando???)
-                arrivalTerminalTransferQuay.waitForBus(identifier);  //Esperar que o autocarro chegue
-                System.out.println("Passenger " + identifier + "ready to take the bus");
-                arrivalTerminalExit.enterTheBus(identifier);
-                //Esperar que o autocarro chegue ao destino
+                arrivalTerminalTransferQuay.waitForBus(identifier);
+                arrivalTerminalTransferQuay.enterTheBus(identifier);
                 departureTerminalTransferQuay.leaveTheBus(identifier);
-
                 departureTerminalEntrance.prepareNextLeg();
                 break;
-            case 'C':
+            case 'C':   // C - Collect Bag
                 baggageCollectionPoint.goCollectBag();
                 if (this.numberOfCollectedLuggages != numberOfLuggages) {
                     baggageReclaimOffice.reportMissingBag();
                 }
                 arrivalTerminalExit.goHome();
                 break;
-            case 'H':
+            case 'H':   // H - Go Home
                 arrivalTerminalExit.goHome();
                 break;
-
         }
-        //notificar o bagageiro que tem malas para aviar.
-
-        /***
-         Boolean isFinalDst = false
-         Passenger passenger;
-         int numBags;
-         int voo, npass, search;
-         BAG bag;
-
-         for (voo = 0; voo < 5; voo++) {
-         if(arrivalLounge.whatShouldIDo() == 'T') {		// In transit
-         arrivalTerminalTransfer.takeABus();			// passenger
-         arrivalTerminalExit.enterTheBus();
-         departureTerminalTransfer.leaveTheBus();
-         departureTerminalEntrance.prepareNextLeg();
-         } else {	// End
-         numBags = 0;
-         while(numBags < nBagsDesp[voo]){
-         bag = baggageCollectionPoint.goCollectBag();
-         if(bag == null) baggageReclaimOffice.reportMissingBags();
-         numBags++;
-         }
-         arrivalTerminalExit.goHome();
-         }
-         }**/
     }
 
     public void increaseCollectedLuggages() {

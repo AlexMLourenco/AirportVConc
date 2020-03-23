@@ -1,93 +1,108 @@
 package sharedRegions;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
 
-import mainProject.*;
+import entities.BusDriver;
+import entities.BusDriverStates;
+import mainProject.SimulPar;
 
 public class ArrivalTerminalTransferQuay {
 
     private RepositoryInfo repository;
 
     private Queue<Integer> waitingForBus;
+    private Queue<Integer> inTheBus;
+
     private boolean busDriverReadyToReceivePassengers = false;
 
-    public ArrivalTerminalTransferQuay(RepositoryInfo repository){
+    public ArrivalTerminalTransferQuay(RepositoryInfo repository) {
         this.repository = repository;
         this.waitingForBus = new LinkedList<>();
+        this.inTheBus = new LinkedList<>();
     }
 
-    /* Passenger functions */
+    /***** PASSENGER FUNCTIONS *********/
 
-    public synchronized void takeABus(int id){
-        //System.out.println("Passenger " + id + " is waiting for a bus!");
+    public synchronized void takeABus(int id) {
         waitingForBus.add(id);
         repository.registerPassengerToTakeABus(id);
-         // Add the passengers to the list of passengers waiting for the bus
-        if (waitingForBus.size() == SimulPar.BUS_CAPACITY ) {
-            notifyAll();
+        if (waitingForBus.size() == SimulPar.BUS_CAPACITY) {
+            notifyAll();  //If we have enough persons to wake up the driver let's do it
         }
     }
 
     public synchronized void waitForBus(int id) {
-        while(true){
-            try{
+        while (true) {
+            try {
                 wait();
                 if (this.busDriverReadyToReceivePassengers) {
                     Object[] tempArr = waitingForBus.toArray();
 
-                    for (int i=0; i < 3; i++) {
-                        if (id == (Integer)tempArr[i]) {
-                            notifyAll();
+                    for (int i = 0; i < 3; i++) {
+                        if (id == (Integer) tempArr[i]) {
                             return;
                         }
                     }
                 }
-            }catch(InterruptedException e){}
-        }
-    }
-
-    /* Driver functions */
-    public synchronized void readyToDeparture() {
-        try{
-            while(true) {
-                this.busDriverReadyToReceivePassengers = false;
-                wait(SimulPar.BUS_SCHEDULE_MILLIS);
-                System.out.println("Bus Driver ready to receive passengers");
-                this.busDriverReadyToReceivePassengers = true;
-                if (waitingForBus.size() > 0) {
-                    int numberOfPassengers = (waitingForBus.size() > 3? 3:waitingForBus.size());
-                    while (true) {
-                        wait();
-                        System.out.println("CNT" + repository.getInTheBusCount());
-                        if (numberOfPassengers == repository.getInTheBusCount()) {
-                            System.out.println("PRONTO A PARTIR");
-                            break;
-                        }
-                        System.out.println("NAO ESTOU PRONTO");
-                    }
-                    break;
-                } else {
-                    System.out.println("Nao tenho ninguem para levar");
-                }
-
+            } catch (InterruptedException e) {
             }
-
-        }catch(InterruptedException e){
-
         }
-
     }
 
-    /**
-     * Driver parks the bus
-     * @return
-     */
-    public void parkTheBus(){
-
+    public synchronized void enterTheBus(int id) {
+        inTheBus.add(id);
+        repository.registerPassengerToEnterTheBus(id);
+        notifyAll();
     }
 
-    public synchronized void announcingBusBoarding(){
-        // acordar as threads dos 3 primeiros passageiros
+
+    /***** DRIVER FUNCTIONS *********/
+
+    public synchronized boolean readyToDeparture() {
+        this.busDriverReadyToReceivePassengers = false;
+        try {
+            wait(SimulPar.BUS_SCHEDULE_MILLIS);
+        } catch (InterruptedException e) {}
+
+        return (waitingForBus.size() > 0);
+    }
+
+    public void goToDepartureTerminal() {
+        try {
+            repository.setBusDriverState(BusDriverStates.DRIVING_FORWARD);
+            Thread.currentThread().sleep((long) (new Random().nextInt(SimulPar.MAX_SLEEP - SimulPar.MIN_SLEEP + 1) + SimulPar.MAX_SLEEP));
+        } catch (InterruptedException e) {
+        }
+    }
+
+    public void parkTheBus() {
+        repository.setBusDriverState(BusDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL);
+    }
+
+    public synchronized void announcingBusBoarding() {
+        BusDriver busDriver = (BusDriver) Thread.currentThread();
+        this.busDriverReadyToReceivePassengers = true;
+        this.inTheBus.clear();
+        int numberOfPassengers = (waitingForBus.size() > 3 ? 3 : waitingForBus.size());
+        busDriver.setPassengersInTheBus(numberOfPassengers);
+        notifyAll();
+        try {
+            while  (numberOfPassengers != inTheBus.size()) {
+                wait(2000);
+            }
+        } catch (InterruptedException e) {}
+
+        this.busDriverReadyToReceivePassengers = false;
+
+        for (int i = 0; i < numberOfPassengers; i++) {
+            waitingForBus.poll();
+        }
+    }
+
+    public synchronized void setBusDriverEndOfWork() {
+        notifyAll();
     }
 
 }
