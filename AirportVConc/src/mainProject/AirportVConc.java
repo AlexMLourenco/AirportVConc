@@ -4,7 +4,6 @@ import static mainProject.SimulPar.LANDINGS;
 import static mainProject.SimulPar.PASSENGERS;
 
 import java.util.Random;
-
 import entities.BusDriver;
 import entities.Passenger;
 import entities.Porter;
@@ -18,14 +17,13 @@ import sharedRegions.DepartureTerminalTransferQuay;
 import sharedRegions.RepositoryInfo;
 import sharedRegions.TemporaryStorageArea;
 
-
 public class AirportVConc {
-
-
     public static void main(String args[]) {
         try {
 
-            /** Shared Memory **/
+            /**
+             * Shared Memory
+             */
             RepositoryInfo repository = new RepositoryInfo();
 
             /**
@@ -40,7 +38,6 @@ public class AirportVConc {
                 for (int j = 0; j < PASSENGERS; j++) {
                     passengersLuggage[i][j] = new Random().nextInt(SimulPar.LUGGAGE+1);
                     passengersFinalDestination[i][j] = (Math.random() < 0.5);
-
                 }
             }
 
@@ -65,7 +62,9 @@ public class AirportVConc {
             DepartureTerminalTransferQuay departureTerminalTransferQuay = new DepartureTerminalTransferQuay(repository);
             TemporaryStorageArea temporaryStorageArea = new TemporaryStorageArea(repository);
 
-            /** Entities **/
+            /**
+             * Entities
+             **/
             Porter porter = new Porter(arrivalLounge, temporaryStorageArea, baggageCollectionPoint);
             BusDriver busDriver = new BusDriver(arrivalTerminalTransferQuay, departureTerminalTransferQuay);
             Passenger[] passengers = new Passenger[PASSENGERS];
@@ -110,9 +109,7 @@ public class AirportVConc {
             porter.join();
             busDriver.join();
 
-        }  catch (Exception ex) {
-            System.out.println(ex);
-        }
+        }  catch (Exception ex) { System.out.println(ex); }
 
     }
 

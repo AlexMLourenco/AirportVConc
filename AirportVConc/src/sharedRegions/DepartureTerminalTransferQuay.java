@@ -8,15 +8,35 @@ import mainProject.SimulPar;
 
 public class DepartureTerminalTransferQuay {
 
+    /**
+     * General Repository of Information
+     * @serialField repository
+     */
     private RepositoryInfo repository;
+
+    /**
+     * Passengers inside the Bus
+     */
     private int passengersOnTheBus;
 
+    /**
+     * Departure Terminal Transfer Quay instantiation
+     *
+     @param repository repositoryInfo
+     *
+     */
     public DepartureTerminalTransferQuay(RepositoryInfo repository){
         this.repository = repository;
     }
 
     /***** PASSENGER FUNCTIONS *********/
 
+    /**
+     * Passenger leaves the Bus
+     *
+     * @param id int
+     *
+     */
     public synchronized void leaveTheBus(int id){
         try {
             wait();
@@ -30,6 +50,10 @@ public class DepartureTerminalTransferQuay {
 
     /***** BUS DRIVER FUNCTIONS *********/
 
+    /**
+     * Bus Driver parks the Bus and let the Passengers off
+     *
+     */
     public synchronized void parkTheBusAndLetPassOff(){
         repository.setBusDriverState(BusDriverStates.PARKING_AT_THE_DEPARTURE_TERMINAL);
         BusDriver busDriver = (BusDriver) Thread.currentThread();
@@ -42,6 +66,10 @@ public class DepartureTerminalTransferQuay {
         }
     }
 
+    /**
+     * Bus Driver drives to the Arrival Terminal
+     *
+     */
     public synchronized void goToArrivalTerminal(){
         repository.setBusDriverState(BusDriverStates.DRIVING_BACKWARD);
         try {

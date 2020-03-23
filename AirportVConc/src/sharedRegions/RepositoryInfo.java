@@ -26,22 +26,36 @@ public class RepositoryInfo {
     PassengerStates[] passengerStates;  //State of the Passenger
 
     /**** Memory Regions ****/
-    //Arrival Lounge
+
+    /**
+     * Arrival Lounge
+     */
     int luggageInPlaneHold;             //Number of Luggages in the plain hold
     char passengersSituation[];         //Passengers situation
     int passengersLuggage[];            //Luggage that the passengers brought in the begging of the journey
     int passengersLuggageCollected[];   //Luggage that was collected by the passengers
 
-    //BaggageCollectionPoint
+    /**
+     * BaggageCollectionPoint
+     */
     int luggageInConveyorBelt;          //Number of Luggages in the conveyor belt
 
-    //TemporaryStorageArea
+    /**
+     * TemporaryStorageArea
+     */
     int luggageInStoreRoom;             //Number of Luggages in the store room
 
-    //ArrivalTerminalTransferQuay
+    /**
+     * ArrivalTerminalTransferQuay
+     */
     int busWaitingQueue[];              //Passengers Waiting Queue
     int busSeats[];                     //Passengers Seated on the Bus
 
+    /**
+     * General Repository Of Information instantiation
+     *
+     * Saves the loggs in a file
+     */
     public RepositoryInfo() throws FileNotFoundException {
         f = new File(SimulPar.FILENAME);
         pw = new PrintWriter(f);
@@ -52,6 +66,9 @@ public class RepositoryInfo {
         pw.write(header);
     }
 
+    /**
+     * Initialization of the Repository
+     */
     public synchronized void init_repository(int flightNumber) {
         this.flightNumber = flightNumber;
 
@@ -80,16 +97,35 @@ public class RepositoryInfo {
 
     /***** GETTERS AND SETTERS ****/
 
+    /**
+     * Set Passenger State
+     *
+     * @param id int
+     * @param state PassengerStates
+     *
+     */
     public synchronized void setPassengerState(int id, PassengerStates state ) {
         this.passengerStates[id] = state;
         export();
     }
 
+    /**
+     * Set Bus Driver State
+     *
+     * @param state PassengerStates
+     *
+     */
     public synchronized void setBusDriverState(BusDriverStates state ) {
         this.busDriverState = state;
         export();
     }
 
+    /**
+     * Set Porter State
+     *
+     * @param state PassengerStates
+     *
+     */
     public synchronized void setPorterState(PorterStates state ) {
         this.porterState = state;
         export();
@@ -97,11 +133,25 @@ public class RepositoryInfo {
 
     /***** ACTIONS *******/
 
+    /**
+     * A flight has landed
+     *
+     * @param luggageInPlaneHold int
+     *
+     */
     public synchronized void flightLanded(int luggageInPlaneHold) {
         this.luggageInPlaneHold = luggageInPlaneHold;
         export();
     }
 
+    /**
+     * A Passenger has arrived
+     *
+     * @param id int
+     * @param isFinalDestination boolean
+     * @param numberOfLuggages int
+     *
+     */
     public synchronized char passengerArrived(int id, boolean isFinalDestination, int numberOfLuggages) {
         char action;
         this.passengersCount++;
@@ -122,24 +172,42 @@ public class RepositoryInfo {
         return action;
     }
 
+    /**
+     * Porter is removing luggage from the plain hold
+     *
+     */
     public synchronized void removeLuggageInPlainHold() {
         this.porterState = PorterStates.AT_THE_PLANES_HOLD;
         this.luggageInPlaneHold--;
         export();
     }
 
+    /**
+     * Porter is registering luggage in the conveyor belt
+     *
+     */
     public synchronized void registerLuggageInConveyorBelt() {
         this.porterState = PorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR;
         this.luggageInConveyorBelt++;
         export();
     }
 
+    /**
+     * Porter is registering luggage in the storeroom
+     *
+     */
     public synchronized void registerLuggageInStoreRoom() {
         this.porterState = PorterStates.AT_THE_STOREROOM;
         this.luggageInStoreRoom++;
         export();
     }
 
+    /**
+     * Passenger has collected a luggage
+     *
+     * @param id int
+     *
+     */
     public synchronized void registerCollectedLuggage(int id) {
         if (this.passengersLuggageCollected[id] == -1) this.passengersLuggageCollected[id] = 0;
         this.passengersLuggageCollected[id] ++;
@@ -147,6 +215,12 @@ public class RepositoryInfo {
         export();
     }
 
+    /**
+     * Registers the Passenger will to take a Bus
+     *
+     * @param id int
+     *
+     */
     public synchronized void registerPassengerToTakeABus(int id) {
         for (int i= 0; i < SimulPar.PASSENGERS; i++) {
             if (busWaitingQueue[i] == -1) {
@@ -158,6 +232,12 @@ public class RepositoryInfo {
         export();
     }
 
+    /**
+     * Registers that the Passenger has enter the Bus
+     *
+     * @param id int
+     *
+     */
     public synchronized void registerPassengerToEnterTheBus(int id) {
         for (int i= 0; i < SimulPar.BUS_CAPACITY; i++) { //Search for an empty spot on the bus
             if (busSeats[i] == -1) {
@@ -174,6 +254,12 @@ public class RepositoryInfo {
         this.setPassengerState(id,PassengerStates.TERMINAL_TRANSFER);
     }
 
+    /**
+     * Removes the Passenger from the Bus
+     *
+     * @param id int
+     *
+     */
     public void removePassengerFromTheBus(int id) {
         for (int i= 0; i < SimulPar.BUS_CAPACITY; i++) {
             if (busSeats[i] == id) {
@@ -184,8 +270,12 @@ public class RepositoryInfo {
         export();
     }
 
-
     /****** FILE ******/
+
+    /**
+     * Exports all the logs to a file
+     *
+     */
     private void export() {
         String output = logInternalState();
         output = output.concat("\n");
@@ -196,6 +286,10 @@ public class RepositoryInfo {
 
     /****** LOGGING ******/
 
+    /**
+     * Header for the logs
+     *
+     */
     public String headerState() {
         String str = "PLANE    PORTER                  DRIVER\n";
         str = str.concat("FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3\n");
@@ -204,6 +298,10 @@ public class RepositoryInfo {
         return str;
     }
 
+    /**
+     * Logs for the internal state of the program
+     *
+     */
     private String logInternalState() {
         String str = "";
         str = str.concat(String.format("%-3d%-4d%-5s%-3d%-5d%-6s",(flightNumber+1), luggageInPlaneHold, porterState.getValue(), luggageInConveyorBelt, luggageInStoreRoom, busDriverState.getValue()));

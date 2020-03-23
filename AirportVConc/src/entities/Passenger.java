@@ -23,6 +23,21 @@ public class Passenger extends Thread {
     private BaggageCollectionPoint baggageCollectionPoint;
     private BaggageReclaimOffice baggageReclaimOffice;
 
+    /**
+     * Passenger instantiation
+     *
+     * @param identifier int
+     * @param numberOfLuggages int
+     * @param isFinalDestination boolean
+     * @param arrivalLounge ArrivalLounge
+     * @param arrivalTerminalTransferQuay ArrivalTerminalTransferQuay
+     * @param arrivalTerminalExit ArrivalTerminalExit
+     * @param departureTerminalTransferQuay DepartureTerminalTransferQuay
+     * @param departureTerminalEntrance DepartureTerminalEntrance
+     * @param baggageCollectionPoint BaggageCollectionPoint
+     * @param baggageReclaimOffice BaggageReclaimOffice
+     *
+     */
     public Passenger(int identifier,
                      int numberOfLuggages,
                      boolean isFinalDestination,
@@ -46,13 +61,18 @@ public class Passenger extends Thread {
         this.departureTerminalEntrance = departureTerminalEntrance;
         this.baggageCollectionPoint = baggageCollectionPoint;
         this.baggageReclaimOffice = baggageReclaimOffice;
-
     }
 
+    /**
+     * Identifier of the Passenger
+     * */
     public int getIdentifier() {
         return identifier;
     }
 
+    /**
+     * Passenger's lifecycle
+     */
     @Override
     public void run() {
         char action = arrivalLounge.whatShouldIDo(identifier, isFinalDestination, numberOfLuggages);
@@ -78,6 +98,9 @@ public class Passenger extends Thread {
         }
     }
 
+    /**
+     * Increase the number of luggage collected
+     * */
     public void increaseCollectedLuggages() {
         this.numberOfCollectedLuggages++;
     }

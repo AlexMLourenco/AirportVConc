@@ -12,9 +12,17 @@ public class Porter extends Thread {
     private BaggageCollectionPoint baggageCollectionPoint;
     private boolean keepAlive;
 
+    /**
+     * Porter instantiation
+     *
+     * @param arrivalLounge ArrivalLounge
+     * @param temporaryStorageArea TemporaryStorageArea
+     * @param baggageCollectionPoint BaggageCollectionPoint
+     *
+     */
     public Porter(ArrivalLounge arrivalLounge,
                   TemporaryStorageArea temporaryStorageArea,
-                  BaggageCollectionPoint baggageCollectionPoint ) {
+                  BaggageCollectionPoint baggageCollectionPoint) {
         super("Porter");
         this.arrivalLounge= arrivalLounge;
         this.temporaryStorageArea= temporaryStorageArea;
@@ -22,6 +30,9 @@ public class Porter extends Thread {
         this.keepAlive = true;
     }
 
+    /**
+     * Porter's lifecycle
+     */
     @Override
     public void run() {
         Boolean planeHoldEmpty;
@@ -35,12 +46,10 @@ public class Porter extends Thread {
             while (!planeHoldEmpty) {
 
                 BAG bag = arrivalLounge.tryToCollectABag();
-
                 if (bag.isFinalDestination()) {
                     baggageCollectionPoint.carryItToAppropriateStore(bag);
                 } else {
-                    temporaryStorageArea.carryItToAppropriateStore(bag);
-                }
+                    temporaryStorageArea.carryItToAppropriateStore(bag); }
 
                 planeHoldEmpty = arrivalLounge.noMoreBagsToCollect();
 
@@ -49,6 +58,11 @@ public class Porter extends Thread {
         }
     }
 
+    /**
+     * Boolean to check if the Porter's thread continues alive or not
+     *
+     * @param keepAlive boolean
+     */
     public void setKeepAlive(boolean keepAlive) {
         this.keepAlive = keepAlive;
     }

@@ -10,13 +10,35 @@ import mainProject.SimulPar;
 
 public class ArrivalTerminalTransferQuay {
 
+    /**
+     * General Repository of Information
+     * @serialField repository
+     */
     private RepositoryInfo repository;
 
+    /**
+     * Queue of passengers waiting for a Bus
+     * @serialField waitingForBus
+     */
     private Queue<Integer> waitingForBus;
+
+    /**
+     * Queue of passengers in the Bus
+     * @serialField inTheBus
+     */
     private Queue<Integer> inTheBus;
 
+    /**
+     * Boolena signal that tells us if the Bus Driver is ready to receive Passengers
+     */
     private boolean busDriverReadyToReceivePassengers = false;
 
+    /**
+     * Arrival Terminal Transfer Quay instantiation
+     *
+     @param repository repositoryInfo
+     *
+     */
     public ArrivalTerminalTransferQuay(RepositoryInfo repository) {
         this.repository = repository;
         this.waitingForBus = new LinkedList<>();
@@ -25,6 +47,12 @@ public class ArrivalTerminalTransferQuay {
 
     /***** PASSENGER FUNCTIONS *********/
 
+    /**
+     * Passenger is put in the waiting list to enter the Bus
+     *
+     @param id int
+     *
+     */
     public synchronized void takeABus(int id) {
         waitingForBus.add(id);
         repository.registerPassengerToTakeABus(id);
@@ -33,6 +61,12 @@ public class ArrivalTerminalTransferQuay {
         }
     }
 
+    /**
+     * Passenger is waiting for the Bus to arrive
+     *
+     @param id int
+     *
+     */
     public synchronized void waitForBus(int id) {
         while (true) {
             try {
@@ -46,20 +80,29 @@ public class ArrivalTerminalTransferQuay {
                         }
                     }
                 }
-            } catch (InterruptedException e) {
-            }
+            } catch (InterruptedException e) { }
         }
     }
 
+    /**
+     * Passenger is put in the list of passengers inside the Bus
+     *
+     @param id int
+     *
+     */
     public synchronized void enterTheBus(int id) {
         inTheBus.add(id);
         repository.registerPassengerToEnterTheBus(id);
         notifyAll();
     }
 
-
     /***** DRIVER FUNCTIONS *********/
 
+    /**
+     * Bus Driver is ready to Departure
+     * Bus Driver reach his schedule
+     *
+     */
     public synchronized boolean readyToDeparture() {
         this.busDriverReadyToReceivePassengers = false;
         try {
@@ -69,6 +112,10 @@ public class ArrivalTerminalTransferQuay {
         return (waitingForBus.size() > 0);
     }
 
+    /**
+     * Bus Driver drives to the Departure Terminal
+     *
+     */
     public void goToDepartureTerminal() {
         try {
             repository.setBusDriverState(BusDriverStates.DRIVING_FORWARD);
@@ -77,10 +124,18 @@ public class ArrivalTerminalTransferQuay {
         }
     }
 
+    /**
+     * Bus Driver parks the Bus
+     *
+     */
     public void parkTheBus() {
         repository.setBusDriverState(BusDriverStates.PARKING_AT_THE_ARRIVAL_TERMINAL);
     }
 
+    /**
+     * Bus Driver announce Bus Boarding of the Passengers
+     *
+     */
     public synchronized void announcingBusBoarding() {
         BusDriver busDriver = (BusDriver) Thread.currentThread();
         this.busDriverReadyToReceivePassengers = true;
@@ -101,6 +156,10 @@ public class ArrivalTerminalTransferQuay {
         }
     }
 
+    /**
+     * Set if Bus Driver's work day is over
+     *
+     */
     public synchronized void setBusDriverEndOfWork() {
         notifyAll();
     }

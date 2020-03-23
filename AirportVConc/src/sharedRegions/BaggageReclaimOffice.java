@@ -5,15 +5,29 @@ import entities.PassengerStates;
 
 public class BaggageReclaimOffice {
 
+    /**
+     * General Repository of Information
+     * @serialField repository
+     */
     private RepositoryInfo repository;
 
+    /**
+     * Baggage Reclaim Office instantiation
+     *
+     @param repository repositoryInfo
+     *
+     */
     public BaggageReclaimOffice(RepositoryInfo repository){
         this.repository = repository;
     }
 
     /***** PASSENGER FUNCTIONS *********/
-    public synchronized void reportMissingBag(){
 
+    /**
+     * Passengers reports a missing bag
+     *
+     */
+    public synchronized void reportMissingBag(){
         Passenger passenger = (Passenger) Thread.currentThread();
         repository.setPassengerState(passenger.getIdentifier(), PassengerStates.AT_THE_BAGGAGE_RECLAIM_OFFICE);
         try {

@@ -10,11 +10,29 @@ import entities.PorterStates;
 
 public class BaggageCollectionPoint {
 
+    /**
+     * General Repository of Information
+     * @serialField repository
+     */
     private RepositoryInfo repository;
 
+    /**
+     * Queue of all the bags
+     * @serialField bags
+     */
     private Queue<BAG> bags;
+
+    /**
+     * Boolean signal that tells us if there are more bags at the plane hold or not
+     */
     private boolean noMoreBagsInThePlaneHold;
 
+    /**
+     * Baggage Collection Point instantiation
+     *
+     @param repository repositoryInfo
+     *
+     */
     public BaggageCollectionPoint(RepositoryInfo repository){
         this.repository = repository;
         this.bags = new LinkedList<>();
@@ -23,12 +41,22 @@ public class BaggageCollectionPoint {
 
     /***** PORTER FUNCTIONS *********/
 
+    /**
+     * Porter carry's the bag to the Appropriate Store
+     *
+     @param bag BAG
+     *
+     */
     public synchronized void carryItToAppropriateStore(BAG bag){
         this.bags.add(bag);
         repository.registerLuggageInConveyorBelt();
         notifyAll(); //Notify that a new bag is in the belt (this will wake up the passengers)
     }
 
+    /**
+     * Let the Porter know that are no more bags to collect at the plane hold
+     *
+     */
     public synchronized void warningNoMoreBagsInThePlaneHold() {
         this.noMoreBagsInThePlaneHold = true;
         this.repository.setPorterState(PorterStates.WAITING_FOR_A_PLANE_TO_LAND);
@@ -37,6 +65,10 @@ public class BaggageCollectionPoint {
 
     /***** PASSENGER FUNCTIONS *********/
 
+    /**
+     * Passenger goes to collect a bag
+     *
+     */
     public synchronized void goCollectBag(){
         Passenger passenger = (Passenger) Thread.currentThread();
         repository.setPassengerState(passenger.getIdentifier(), PassengerStates.AT_THE_LUGGAGE_COLLECTION_POINT);
@@ -56,5 +88,4 @@ public class BaggageCollectionPoint {
             }catch(InterruptedException e){}
         }
     }
-
 }
