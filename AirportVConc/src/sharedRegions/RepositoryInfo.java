@@ -1,6 +1,9 @@
 package sharedRegions;
 
 import java.util.Arrays;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
 
 import entities.BusDriverStates;
 import entities.PassengerStates;
@@ -12,6 +15,10 @@ public class RepositoryInfo {
     /**** Flight ****/
     int flightNumber;                   //Number of the flight
     int passengersCount;                //Number of Passengers that have landed
+
+    /**** File ****/
+    private File f;
+    private PrintWriter pw;
 
     /**** Entities Information ****/
     PorterStates porterState;           //State of the Porter
@@ -35,7 +42,14 @@ public class RepositoryInfo {
     int busWaitingQueue[];              //Passengers Waiting Queue
     int busSeats[];                     //Passengers Seated on the Bus
 
-    public RepositoryInfo()  {
+    public RepositoryInfo() throws FileNotFoundException {
+        f = new File(SimulPar.FILENAME);
+        pw = new PrintWriter(f);
+
+        String header = headerState();
+        header = header.concat("\n");
+        System.out.println(header);
+        pw.write(header);
     }
 
     public synchronized void init_repository(int flightNumber) {
@@ -68,24 +82,24 @@ public class RepositoryInfo {
 
     public synchronized void setPassengerState(int id, PassengerStates state ) {
         this.passengerStates[id] = state;
-        this.logInternalState();
+        export();
     }
 
     public synchronized void setBusDriverState(BusDriverStates state ) {
         this.busDriverState = state;
-        this.logInternalState();
+        export();
     }
 
     public synchronized void setPorterState(PorterStates state ) {
         this.porterState = state;
-        this.logInternalState();
+        export();
     }
 
     /***** ACTIONS *******/
 
     public synchronized void flightLanded(int luggageInPlaneHold) {
         this.luggageInPlaneHold = luggageInPlaneHold;
-        this.logInternalState();
+        export();
     }
 
     public synchronized char passengerArrived(int id, boolean isFinalDestination, int numberOfLuggages) {
@@ -104,33 +118,33 @@ public class RepositoryInfo {
         } else {                                // Collect a Bag
             action = 'C';
         }
-        this.logInternalState();
+        export();
         return action;
     }
 
     public synchronized void removeLuggageInPlainHold() {
         this.porterState = PorterStates.AT_THE_PLANES_HOLD;
         this.luggageInPlaneHold--;
-        this.logInternalState();
+        export();
     }
 
     public synchronized void registerLuggageInConveyorBelt() {
         this.porterState = PorterStates.AT_THE_LUGGAGE_BELT_CONVEYOR;
         this.luggageInConveyorBelt++;
-        this.logInternalState();
+        export();
     }
 
     public synchronized void registerLuggageInStoreRoom() {
         this.porterState = PorterStates.AT_THE_STOREROOM;
         this.luggageInStoreRoom++;
-        this.logInternalState();
+        export();
     }
 
     public synchronized void registerCollectedLuggage(int id) {
         if (this.passengersLuggageCollected[id] == -1) this.passengersLuggageCollected[id] = 0;
         this.passengersLuggageCollected[id] ++;
         this.luggageInConveyorBelt--;
-        this.logInternalState();
+        export();
     }
 
     public synchronized void registerPassengerToTakeABus(int id) {
@@ -141,7 +155,7 @@ public class RepositoryInfo {
                 break;
             }
         }
-        this.logInternalState();
+        export();
     }
 
     public synchronized void registerPassengerToEnterTheBus(int id) {
@@ -167,9 +181,18 @@ public class RepositoryInfo {
                 break;
             }
         }
-        this.logInternalState();
+        export();
     }
 
+
+    /****** FILE ******/
+    private void export() {
+        String output = logInternalState();
+        output = output.concat("\n");
+        System.out.println(output);
+        pw.write(output);
+        pw.flush();
+    }
 
     /****** LOGGING ******/
 
@@ -177,9 +200,7 @@ public class RepositoryInfo {
         String str = "PLANE    PORTER                  DRIVER\n";
         str = str.concat("FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3\n");
         str = str.concat("St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6");
-
         System.out.println(str);
-
         return str;
     }
 
@@ -220,10 +241,6 @@ public class RepositoryInfo {
                 str = str.concat(String.format("%-4d", passengersLuggageCollected[i]));
             }
         }
-        System.out.println(str);
-
         return str ;
     }
-
-
 }
