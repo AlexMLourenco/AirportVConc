@@ -356,7 +356,8 @@ public class RepositoryInfo {
      *
      */
     private String report() {
-        String str = "Final report\n";
+        String str = "\n";
+        str = str.concat("Final report\n");
         str = str.concat("N. of passengers which have this airport as their final destination = " + passengersFinalDestination + "\n");
         str = str.concat("N. of passengers which are in transit = " + passengersInTransit + "\n");
         str = str.concat("N. of bags that should have been transported in the the planes hold = " + (bagsTransportedInThePlaneHold + bagsLost) + "\n");
