@@ -109,6 +109,8 @@ public class AirportVConc {
             porter.join();
             busDriver.join();
 
+            repository.addReport();
+
         }  catch (Exception ex) { System.out.println(ex); }
 
     }

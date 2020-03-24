@@ -12,6 +12,12 @@ import mainProject.SimulPar;
 
 public class RepositoryInfo {
 
+    /**** Report Values ****/
+    static int passengersFinalDestination = 0;
+    static int passengersInTransit = 0;
+    static int bagsTransportedInThePlaneHold = 0;
+    static int bagsLost = 0;
+
     /**** Flight ****/
     int flightNumber;                   //Number of the flight
     int passengersCount;                //Number of Passengers that have landed
@@ -141,6 +147,7 @@ public class RepositoryInfo {
      */
     public synchronized void flightLanded(int luggageInPlaneHold) {
         this.luggageInPlaneHold = luggageInPlaneHold;
+        bagsTransportedInThePlaneHold += luggageInPlaneHold;
         export();
     }
 
@@ -157,10 +164,13 @@ public class RepositoryInfo {
         this.passengersCount++;
         this.passengersLuggage[id] = numberOfLuggages;
         this.passengerStates[id] = PassengerStates.WHAT_SHOULD_I_DO;
-        if (isFinalDestination)
+        if (isFinalDestination) {
             this.passengersSituation[id] = 'F';
-        else
+            passengersFinalDestination++;
+        } else {
             this.passengersSituation[id] = 'T';
+            passengersInTransit++;
+        }
         if (!isFinalDestination) {              // Take a Bus
             action = 'B';
         } else if  (numberOfLuggages == 0) {    // Go Home
@@ -294,7 +304,6 @@ public class RepositoryInfo {
         String str = "PLANE    PORTER                  DRIVER\n";
         str = str.concat("FN BN  Stat CB SR   Stat  Q1 Q2 Q3 Q4 Q5 Q6  S1 S2 S3\n");
         str = str.concat("St1 Si1 NR1 NA1 St2 Si2 NR2 NA2 St3 Si3 NR3 NA3 St4 Si4 NR4 NA4 St5 Si5 NR5 NA5 St6 Si6 NR6 NA6");
-        System.out.println(str);
         return str;
     }
 
@@ -340,5 +349,29 @@ public class RepositoryInfo {
             }
         }
         return str ;
+    }
+
+    /**
+     * Final report for the results
+     *
+     */
+    private String report() {
+        String str = "Final report\n";
+        str = str.concat("N. of passengers which have this airport as their final destination = " + passengersFinalDestination + "\n");
+        str = str.concat("N. of passengers which are in transit = " + passengersInTransit + "\n");
+        str = str.concat("N. of bags that should have been transported in the the planes hold = " + (bagsTransportedInThePlaneHold + bagsLost) + "\n");
+        str = str.concat("N. of bags that were lost = " + bagsLost + "\n");
+        return str;
+    }
+
+    /**
+     * Add the report at the end of the file
+     *
+     */
+    public void addReport() {
+        String output = report();
+        System.out.println(output);
+        pw.write(output);
+        pw.flush();
     }
 }

@@ -30,6 +30,7 @@ public class BaggageReclaimOffice {
     public synchronized void reportMissingBag(){
         Passenger passenger = (Passenger) Thread.currentThread();
         repository.setPassengerState(passenger.getIdentifier(), PassengerStates.AT_THE_BAGGAGE_RECLAIM_OFFICE);
+        repository.bagsLost++;
         try {
             passenger.sleep(2000);
         } catch (Exception e) { }
