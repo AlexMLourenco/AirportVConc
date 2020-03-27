@@ -23,7 +23,8 @@ public class BaggageCollectionPoint {
     private Queue<BAG> bags;
 
     /**
-     * Boolean signal that tells us if there are more bags at the plane hold or not
+     * Signal that tells us if there are more bags at the plane hold or not
+     * @serialField noMoreBagsInThePlaneHold
      */
     private boolean noMoreBagsInThePlaneHold;
 

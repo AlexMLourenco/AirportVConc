@@ -3,14 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="5836ffb8-bdbc-423f-b805-42b81f6101f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/AirportVConc/entities/Passenger.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AirportVConc/entities/Passenger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/AirportVConc/mainProject/AirportVConc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AirportVConc/mainProject/AirportVConc.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/AirportVConc/sharedRegions/ArrivalTerminalExit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AirportVConc/sharedRegions/ArrivalTerminalExit.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/AirportVConc/sharedRegions/DepartureTerminalEntrance.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/AirportVConc/sharedRegions/DepartureTerminalEntrance.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/airport.sh" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/airport.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Passenger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainProject/AirportVConc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainProject/AirportVConc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sharedRegions/ArrivalTerminalExit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/ArrivalTerminalExit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sharedRegions/BaggageCollectionPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/BaggageCollectionPoint.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sharedRegions/DepartureTerminalEntrance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sharedRegions/DepartureTerminalEntrance.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,35 +102,35 @@
       <screen x="1366" y="0" width="1360" height="768" />
     </state>
     <state x="1898" y="280" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/1366.0.1360.768/0.0.1366.768@1366.0.1360.768" timestamp="1583708158475" />
-    <state width="1750" height="495" key="GridCell.Tab.0.bottom" timestamp="1585266056236">
+    <state width="1750" height="949" key="GridCell.Tab.0.bottom" timestamp="1585269054904">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state width="1324" height="407" key="GridCell.Tab.0.bottom/0.0.1366.768@0.0.1366.768" timestamp="1584575454303" />
-    <state width="1750" height="495" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1585266056236" />
+    <state width="1750" height="949" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1585269054904" />
     <state width="1324" height="232" key="GridCell.Tab.0.bottom/1366.0.1360.768/0.0.1366.768@0.0.1366.768" timestamp="1584931648960" />
     <state width="1318" height="531" key="GridCell.Tab.0.bottom/1366.0.1360.768/0.0.1366.768@1366.0.1360.768" timestamp="1584370603871" />
     <state width="1318" height="531" key="GridCell.Tab.0.bottom/1366.23.1360.745/0.23.1366.745@1366.23.1360.745" timestamp="1584324833205" />
-    <state width="1750" height="495" key="GridCell.Tab.0.center" timestamp="1585266056235">
+    <state width="1750" height="949" key="GridCell.Tab.0.center" timestamp="1585269054903">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state width="1324" height="407" key="GridCell.Tab.0.center/0.0.1366.768@0.0.1366.768" timestamp="1584575454302" />
-    <state width="1750" height="495" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1585266056235" />
+    <state width="1750" height="949" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1585269054903" />
     <state width="1324" height="232" key="GridCell.Tab.0.center/1366.0.1360.768/0.0.1366.768@0.0.1366.768" timestamp="1584931648959" />
     <state width="1318" height="531" key="GridCell.Tab.0.center/1366.0.1360.768/0.0.1366.768@1366.0.1360.768" timestamp="1584370603870" />
     <state width="1318" height="531" key="GridCell.Tab.0.center/1366.23.1360.745/0.23.1366.745@1366.23.1360.745" timestamp="1584324833204" />
-    <state width="1750" height="495" key="GridCell.Tab.0.left" timestamp="1585266056235">
+    <state width="1750" height="949" key="GridCell.Tab.0.left" timestamp="1585269054903">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state width="1324" height="407" key="GridCell.Tab.0.left/0.0.1366.768@0.0.1366.768" timestamp="1584575454299" />
-    <state width="1750" height="495" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1585266056235" />
+    <state width="1750" height="949" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1585269054903" />
     <state width="1324" height="232" key="GridCell.Tab.0.left/1366.0.1360.768/0.0.1366.768@0.0.1366.768" timestamp="1584931648958" />
     <state width="1318" height="531" key="GridCell.Tab.0.left/1366.0.1360.768/0.0.1366.768@1366.0.1360.768" timestamp="1584370603869" />
     <state width="1318" height="531" key="GridCell.Tab.0.left/1366.23.1360.745/0.23.1366.745@1366.23.1360.745" timestamp="1584324833204" />
-    <state width="1750" height="495" key="GridCell.Tab.0.right" timestamp="1585266056236">
+    <state width="1750" height="949" key="GridCell.Tab.0.right" timestamp="1585269054904">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state width="1324" height="407" key="GridCell.Tab.0.right/0.0.1366.768@0.0.1366.768" timestamp="1584575454302" />
-    <state width="1750" height="495" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1585266056236" />
+    <state width="1750" height="949" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1585269054904" />
     <state width="1324" height="232" key="GridCell.Tab.0.right/1366.0.1360.768/0.0.1366.768@0.0.1366.768" timestamp="1584931648960" />
     <state width="1318" height="531" key="GridCell.Tab.0.right/1366.0.1360.768/0.0.1366.768@1366.0.1360.768" timestamp="1584370603870" />
     <state width="1318" height="531" key="GridCell.Tab.0.right/1366.23.1360.745/0.23.1366.745@1366.23.1360.745" timestamp="1584324833205" />

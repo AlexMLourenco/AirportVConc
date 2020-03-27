@@ -12,7 +12,16 @@ public class ArrivalTerminalExit {
      */
     private RepositoryInfo repository;
 
+    /**
+     * Integer to get the number of passengers currently waiting to leave the airport or to check in for the next leg of the journey
+     * @serialField numberOfPassengers
+     */
     private int numberOfPassengers;
+
+    /**
+     * Departure Terminal Entrance
+     * @serialField departureTerminalEntrance
+     */
     private DepartureTerminalEntrance departureTerminalEntrance;
 
     /**
@@ -37,28 +46,39 @@ public class ArrivalTerminalExit {
             departureTerminalEntrance.readyToLeave();
         } else{
             try {
-                System.out.println("Passenger " + passenger.getIdentifier() + " WAITING");
                 wait();
-                System.out.println("Passenger " + passenger.getIdentifier() + " UNBLOCKED");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            } catch (InterruptedException e) {}
         }
-
     }
 
-
+    /**
+     * Set the counter of the number of passengers waiting for their fellow passengers to zero
+     *
+     */
     public synchronized void clean_up() {
         this.numberOfPassengers = 0;
     }
 
+    /**
+     * Get the number of passengers waiting for their fellow passengers
+     *
+     */
     public synchronized int getNumberOfPassengers(){
         return numberOfPassengers;
     }
 
+    /**
+     * Set the Departure Terminal Entrance memory zone
+     *
+     */
     public void setDepartureTerminalEntrance(DepartureTerminalEntrance departureTerminalEntrance) {
         this.departureTerminalEntrance = departureTerminalEntrance;
     }
+
+    /**
+     * Wake the passengers when when everyone is ready to leave the airport or check in for the next leg of the journey
+     *
+     */
     public synchronized void readyToLeave() {
         notifyAll();
     }
