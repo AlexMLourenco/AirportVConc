@@ -76,6 +76,4 @@ public class DepartureTerminalTransferQuay {
             Thread.currentThread().sleep((long) (new Random().nextInt(SimulPar.MAX_SLEEP - SimulPar.MIN_SLEEP+1) + SimulPar.MAX_SLEEP));
         } catch (InterruptedException e) {}
     }
-
-
 }

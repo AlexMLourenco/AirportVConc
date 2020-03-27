@@ -18,7 +18,15 @@ public class ArrivalLounge {
     private boolean[][] passengersFinalDestination;
 
     /*** shared memory ***/
+    /**
+     * Stack with all the planes in the hold
+     * @serialField planeHold
+     */
     Stack<BAG> planeHold;
+    /**
+     * Passengers count
+     * @serialField passengersCount
+     */
     private int passengersCount;
 
     /**
