@@ -96,6 +96,7 @@ public class Passenger extends Thread {
                 arrivalTerminalExit.goHome();
                 break;
         }
+
     }
 
     /**

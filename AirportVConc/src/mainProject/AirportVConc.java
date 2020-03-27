@@ -62,6 +62,9 @@ public class AirportVConc {
             DepartureTerminalTransferQuay departureTerminalTransferQuay = new DepartureTerminalTransferQuay(repository);
             TemporaryStorageArea temporaryStorageArea = new TemporaryStorageArea(repository);
 
+            arrivalTerminalExit.setDepartureTerminalEntrance(departureTerminalEntrance);
+            departureTerminalEntrance.setArrivalTerminalExit(arrivalTerminalExit);
+
             /**
              * Entities
              **/
@@ -78,6 +81,8 @@ public class AirportVConc {
 
                 repository.init_repository(flightNumber);           //Reset flights info
                 arrivalLounge.init_plane_hold(flightNumber);        //Create the plane hold (simulation)
+                arrivalTerminalExit.clean_up();
+                departureTerminalEntrance.clean_up();
                 busDriver.setPassengersInTheBus(0);
 
                 for (int j = 0; j < PASSENGERS; j ++) {
